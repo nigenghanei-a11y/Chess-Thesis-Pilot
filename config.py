@@ -46,3 +46,5 @@ import os as _os
 # Path to the Stockfish executable. Edit this, or set the STOCKFISH_PATH environment variable.
 STOCKFISH_PATH = _os.environ.get("STOCKFISH_PATH", "stockfish/stockfish.exe")
 PV_MAX_PLIES = 8                  # PV shown in condition C is cut to this many plies
+
+LLM_NUM_CTX = 2048

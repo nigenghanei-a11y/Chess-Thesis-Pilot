@@ -12,3 +12,7 @@ data/raw/
 # engine binaries (record the version in the manifest instead)
 stockfish*/
 *.exe
+.venv/
+data/raw/
+stockfish/
+__pycache__/
