@@ -1,0 +1,6 @@
+chess==1.11.2
+zstandard==0.25.0
+requests==2.34.2
+pandas
+scipy
+ollama
