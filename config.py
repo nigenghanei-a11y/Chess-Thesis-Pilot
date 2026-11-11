@@ -40,3 +40,9 @@ LLM_MODEL = "llama3.1:8b"         # pick one your machine can run; the model dig
 LLM_TEMPERATURE = 0.0
 LLM_SEED = SEED
 LLM_MAX_TOKENS = 400
+
+# ---- Added in step 2 ----
+import os as _os
+# Path to the Stockfish executable. Edit this, or set the STOCKFISH_PATH environment variable.
+STOCKFISH_PATH = _os.environ.get("STOCKFISH_PATH", "stockfish/stockfish.exe")
+PV_MAX_PLIES = 8                  # PV shown in condition C is cut to this many plies
