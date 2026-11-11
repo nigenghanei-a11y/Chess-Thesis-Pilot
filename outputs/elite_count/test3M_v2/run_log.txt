@@ -1,0 +1,113 @@
+[22:05:46] ==============================================================================
+[22:05:46] STEP 1/6  Settings   (run folder: D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\test3M_v2)
+[22:05:46]   input        : Lichess 2026-10 (streamed)
+[22:05:46]   games to read: first 3,000,000
+[22:05:46]   good move    : cp loss <= 30 (also reported at <= 10); |eval before| <= 500; full moves 10-30; source = Lichess [%eval]
+[22:05:46]   seed         : 42   export: 40 games from the strictest tier with >= 120 good-move games (random)
+[22:05:46]   duplicates   : skip a position already exported (same board/turn/castling/en-passant); max 2 exported games per player
+[22:05:46]   tier B0: baseline: your current config (no eval needed)
+[22:05:46]   tier E1: elite: both >= 2200, gap <= 100, rapid+, eval, no bots
+[22:05:46]   tier E2: elite: both >= 2300, gap <= 100, rapid+, eval, no bots
+[22:05:46]   tier E3: elite: both >= 2400, gap <= 100, rapid+, eval, no bots
+[22:05:46]   tier E4: elite: both >= 2500, gap <= 100, rapid+, eval, no bots
+[22:05:46]   tier E5: elite: both >= 2600, gap <= 100, rapid+, eval, no bots
+
+[22:05:46] STEP 2/6  Opening the input
+[22:05:46] Connecting to https://database.lichess.org/standard/lichess_db_standard_rated_2026-10.pgn.zst ...
+[22:05:47] Connected: HTTP 200, size 30.98 GB (streaming, nothing saved to disk)
+
+[22:05:47] STEP 3/6  Streaming games (this is the long step; progress line every 20s; Ctrl+C is safe)
+[22:05:47]   first live game read: https://lichess.org/game/Q8ku5wgM  Elo 1825/1790  300+0  -> parsing works
+[22:06:07]        420,000 games | 20,768/s |  14.0% of 3,000,000  ETA 2m04s | games with %eval 41,505 | good-move games E1=113 E2=40 E3=10 E4=3 E5=1
+[22:06:28]        780,000 games | 18,928/s |  26.0% of 3,000,000  ETA 1m57s | games with %eval 77,709 | good-move games E1=209 E2=93 E3=24 E4=3 E5=1
+[22:06:49]      1,100,000 games | 17,713/s |  36.7% of 3,000,000  ETA 1m47s | games with %eval 110,477 | good-move games E1=315 E2=148 E3=46 E4=5 E5=1
+[22:07:10]      1,480,000 games | 17,735/s |  49.3% of 3,000,000  ETA 1m25s | games with %eval 151,104 | good-move games E1=433 E2=203 E3=66 E4=8 E5=2
+[22:07:30]      1,860,000 games | 17,935/s |  62.0% of 3,000,000  ETA 1m03s | games with %eval 192,162 | good-move games E1=549 E2=259 E3=91 E4=14 E5=4
+[22:07:39]   [checkpoint saved at 2,000,000 games - periodic]
+[22:07:51]      2,180,000 games | 17,537/s |  72.7% of 3,000,000  ETA 0m46s | games with %eval 226,635 | good-move games E1=647 E2=305 E3=111 E4=19 E5=5
+[22:08:12]      2,460,000 games | 16,898/s |  82.0% of 3,000,000  ETA 0m31s | games with %eval 258,145 | good-move games E1=708 E2=327 E3=122 E4=20 E5=6
+[22:08:33]      2,720,000 games | 16,403/s |  90.7% of 3,000,000  ETA 0m17s | games with %eval 285,309 | good-move games E1=773 E2=355 E3=134 E4=24 E5=6
+[22:08:52]   finished streaming: 3,000,000 games in 3m05s (this session)
+
+[22:08:52] STEP 4/6  Summary tables
+[22:08:52] tierdescription                                                        games  good-move games  (<=10cp)  good pairs
+[22:08:52] -------------------------------------------------------------------------------------------------------------------
+[22:08:52] B0  baseline: your current config (no eval needed)                    40,377                -         -           -
+[22:08:52] E1  elite: both >= 2200, gap <= 100, rapid+, eval, no bots               841              835       835      21,946
+[22:08:52] E2  elite: both >= 2300, gap <= 100, rapid+, eval, no bots               383              382       382      10,577
+[22:08:52] E3  elite: both >= 2400, gap <= 100, rapid+, eval, no bots               142              142       142       4,059
+[22:08:52] E4  elite: both >= 2500, gap <= 100, rapid+, eval, no bots                29               29        29         842
+[22:08:52] E5  elite: both >= 2600, gap <= 100, rapid+, eval, no bots                 8                8         8         227
+
+[22:08:52]   Funnel (games remaining after each criterion):
+[22:08:52]     B0: read 3,000,000 -> elo 729,273 -> gap 729,273 -> time 77,594 -> normal+result+bot 68,663 -> plies 40,377
+[22:08:52]     E1: read 3,000,000 -> elo 186,582 -> gap 148,744 -> time 3,155 -> normal+result+bot 2,350 -> plies 1,535 -> has_eval 841 -> good_move_position 835
+[22:08:52]     E2: read 3,000,000 -> elo 108,267 -> gap 84,274 -> time 1,369 -> normal+result+bot 846 -> plies 583 -> has_eval 383 -> good_move_position 382
+[22:08:52]     E3: read 3,000,000 -> elo 59,556 -> gap 44,779 -> time 643 -> normal+result+bot 242 -> plies 179 -> has_eval 142 -> good_move_position 142
+[22:08:52]     E4: read 3,000,000 -> elo 31,967 -> gap 22,918 -> time 372 -> normal+result+bot 36 -> plies 29 -> has_eval 29 -> good_move_position 29
+[22:08:52]     E5: read 3,000,000 -> elo 17,120 -> gap 11,934 -> time 324 -> normal+result+bot 8 -> plies 8 -> has_eval 8 -> good_move_position 8
+
+[22:08:52]   Highest-rated games with a good position-move pair (top 10 of 50 saved in the JSON):
+[22:08:52]     min Elo 2661  (2671 v 2661)     600+0  good pairs  42  https://lichess.org/game/rFyuoTG3
+[22:08:52]     min Elo 2639  (2662 v 2639)     600+0  good pairs  30  https://lichess.org/game/vWVw13dL
+[22:08:52]     min Elo 2633  (2633 v 2726)     600+0  good pairs  30  https://lichess.org/game/RwnA4sW6
+[22:08:52]     min Elo 2631  (2631 v 2705)     600+0  good pairs  33  https://lichess.org/game/1L1dXvZQ
+[22:08:52]     min Elo 2622  (2622 v 2678)     600+0  good pairs  32  https://lichess.org/game/Je8exyqv
+[22:08:52]     min Elo 2614  (2614 v 2619)     600+0  good pairs  16  https://lichess.org/game/dSEeXGJN
+[22:08:52]     min Elo 2608  (2625 v 2608)     600+0  good pairs  30  https://lichess.org/game/WOBWtwav
+[22:08:52]     min Elo 2603  (2606 v 2603)     600+0  good pairs  14  https://lichess.org/game/5oSdmYnX
+[22:08:52]     min Elo 2594  (2594 v 2594)     600+0  good pairs  34  https://lichess.org/game/HUMBAGTB
+[22:08:52]     min Elo 2584  (2593 v 2584)     600+0  good pairs  30  https://lichess.org/game/NJHrp40U
+
+[22:08:52] STEP 5/6  Choosing the pool tier and exporting candidates
+[22:08:52]   pool tier E3: 142 good-move games (reservoir holds 142); selection = random
+[22:08:52]   C001  c3      loss   9 cp  Elo 2467/2474  ply 32  https://lichess.org/game/fkWQiIew
+[22:08:52]   C002  h4      loss   8 cp  Elo 2415/2417  ply 45  https://lichess.org/game/u72Kd5De
+[22:08:52]   C003  O-O     loss   0 cp  Elo 2606/2603  ply 18  https://lichess.org/game/5oSdmYnX
+[22:08:52]   C004  exd5    loss  12 cp  Elo 2401/2439  ply 36  https://lichess.org/game/PjWVal2z
+[22:08:52]   C005  Ke2     loss   0 cp  Elo 2464/2441  ply 56  https://lichess.org/game/gQTaW2LC
+[22:08:52]   C006  Nb4     loss   9 cp  Elo 2473/2567  ply 29  https://lichess.org/game/idOp7B1W
+[22:08:52]   C007  Rfe1    loss   0 cp  Elo 2450/2447  ply 46  https://lichess.org/game/5YYGjUUT
+[22:08:52]   C008  Rc8     loss  11 cp  Elo 2594/2594  ply 51  https://lichess.org/game/HUMBAGTB
+[22:08:52]   C009  Rxc7    loss   0 cp  Elo 2419/2496  ply 57  https://lichess.org/game/Mm9qas7z
+[22:08:52]   C010  Qxa7    loss   0 cp  Elo 2505/2572  ply 42  https://lichess.org/game/jwfYe2Q6
+[22:08:52]   C011  Be6     loss   2 cp  Elo 2463/2557  ply 19  https://lichess.org/game/Ee3IwYqc
+[22:08:52]   C012  fxg4    loss   9 cp  Elo 2512/2413  ply 55  https://lichess.org/game/cG6RubAA
+[22:08:52]   C013  Ne5     loss   0 cp  Elo 2413/2432  ply 37  https://lichess.org/game/JLGVe2Hd
+[22:08:52]   C014  b4      loss  15 cp  Elo 2505/2526  ply 20  https://lichess.org/game/BSbafvGt
+[22:08:52]   C015  a4      loss   0 cp  Elo 2405/2405  ply 20  https://lichess.org/game/m18S97RX
+[22:08:52]   C016  Qa5     loss   0 cp  Elo 2493/2533  ply 31  https://lichess.org/game/qpn1Orc1
+[22:08:52]   C017  Kf8     loss   4 cp  Elo 2540/2611  ply 45  https://lichess.org/game/sbK27jck
+[22:08:52]   C018  Qa4     loss   0 cp  Elo 2662/2639  ply 42  https://lichess.org/game/vWVw13dL
+[22:08:52]   C019  Bxg5    loss   8 cp  Elo 2486/2436  ply 18  https://lichess.org/game/rOEJEFoR
+[22:08:52]   C020  Nb6     loss   0 cp  Elo 2449/2443  ply 31  https://lichess.org/game/rdoGPkwd
+[22:08:52]   C021  a5      loss   0 cp  Elo 2414/2447  ply 38  https://lichess.org/game/A9eGPMeq
+[22:08:52]   C022  Nxd5    loss   0 cp  Elo 2457/2408  ply 31  https://lichess.org/game/0PUYcmux
+[22:08:52]   C023  Kf6     loss   0 cp  Elo 2479/2453  ply 57  https://lichess.org/game/MowkRIzG
+[22:08:52]   C024  Rb8     loss   0 cp  Elo 2517/2495  ply 25  https://lichess.org/game/rDLkseNE
+[22:08:52]   C025  b5      loss  15 cp  Elo 2440/2523  ply 43  https://lichess.org/game/O53NRoYO
+[22:08:52]   C026  Rfd1    loss   0 cp  Elo 2474/2468  ply 48  https://lichess.org/game/nvR6Z93Z
+[22:08:52]   C027  Qc4     loss   0 cp  Elo 2505/2426  ply 40  https://lichess.org/game/VYHMQkDr
+[22:08:52]   C028  g3      loss   0 cp  Elo 2537/2539  ply 44  https://lichess.org/game/5Auc4CzM
+[22:08:52]   C029  Rfe8    loss  17 cp  Elo 2536/2511  ply 33  https://lichess.org/game/7AzkIVo2
+[22:08:52]   C030  Ne5     loss   0 cp  Elo 2530/2465  ply 26  https://lichess.org/game/RVTPhK7J
+[22:08:52]   C031  Qxd4    loss   1 cp  Elo 2576/2532  ply 38  https://lichess.org/game/7RBdjiwc
+[22:08:52]   C032  g6      loss   0 cp  Elo 2578/2487  ply 35  https://lichess.org/game/JVAbVEWl
+[22:08:52]   C033  c5      loss   3 cp  Elo 2421/2417  ply 25  https://lichess.org/game/WneuL8ii
+[22:08:52]   C034  O-O-O   loss   3 cp  Elo 2407/2447  ply 28  https://lichess.org/game/eaWGdxXz
+[22:08:52]   C035  Qd7     loss   5 cp  Elo 2539/2510  ply 45  https://lichess.org/game/NYzypWWY
+[22:08:52]   C036  Qxc3    loss   0 cp  Elo 2420/2502  ply 29  https://lichess.org/game/R9S7hwma
+[22:08:52]   C037  Bd7     loss   3 cp  Elo 2551/2476  ply 29  https://lichess.org/game/BA0DjnKO
+[22:08:52]   C038  axb5    loss   6 cp  Elo 2405/2453  ply 25  https://lichess.org/game/ZD9NuQMa
+[22:08:52]   C039  h5      loss   5 cp  Elo 2434/2420  ply 31  https://lichess.org/game/a8DcIqrl
+[22:08:52]   C040  a5      loss  12 cp  Elo 2451/2470  ply 33  https://lichess.org/game/gXvygyam
+[22:08:52]   exported 40 candidates (games without a usable position: 0; positions skipped as duplicates: 0; games skipped by the per-player cap: 1; distinct players in export: 72)
+
+[22:08:52] STEP 6/6  Writing files
+[22:08:52]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\test3M_v2\elite_counts.json
+[22:08:52]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\test3M_v2\01_candidates.jsonl   (sha256 5d0f039df167020d...)
+[22:08:52]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\test3M_v2\run_log.txt
+[22:08:52]   results_sha256 = aeb71bf70d9649ca4f71c5db86b937eacd4f0e4f88acd7df774aceb4be0337aa
+[22:08:52]   input sha256 of consumed bytes = 0b1dc1a879eda32e... (982,144,975 compressed bytes, PARTIAL read)
+
+[22:08:52] DONE. Next:  python run_elite_step.py 02   (checks each move with YOUR Stockfish; no copying needed)

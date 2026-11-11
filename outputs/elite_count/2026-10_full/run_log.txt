@@ -1,0 +1,212 @@
+[23:52:35] ==============================================================================
+[23:52:35] STEP 1/6  Settings   (run folder: D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\2026-10_full)
+[23:52:35]   input        : data\raw\lichess_db_standard_rated_2026-10.pgn.zst
+[23:52:35]   games to read: whole file
+[23:52:35]   good move    : cp loss <= 30 (also reported at <= 10); |eval before| <= 500; full moves 10-30; source = Lichess [%eval]
+[23:52:35]   seed         : 42   export: 40 games from the strictest tier with >= 120 good-move games (random)
+[23:52:35]   duplicates   : skip a position already exported (same board/turn/castling/en-passant); max 2 exported games per player
+[23:52:35]   tier B0: baseline: your current config (no eval needed)
+[23:52:35]   tier E1: elite: both >= 2200, gap <= 100, rapid+, eval, no bots
+[23:52:35]   tier E2: elite: both >= 2300, gap <= 100, rapid+, eval, no bots
+[23:52:35]   tier E3: elite: both >= 2400, gap <= 100, rapid+, eval, no bots
+[23:52:35]   tier E4: elite: both >= 2500, gap <= 100, rapid+, eval, no bots
+[23:52:35]   tier E5: elite: both >= 2600, gap <= 100, rapid+, eval, no bots
+
+[23:52:35] STEP 2/6  Opening the input
+[23:52:35] Opening local file data\raw\lichess_db_standard_rated_2026-10.pgn.zst  (30.98 GB compressed)
+
+[23:52:35] STEP 3/6  Streaming games (this is the long step; progress line every 20s; Ctrl+C is safe)
+[23:52:35]   first live game read: https://lichess.org/game/Q8ku5wgM  Elo 1825/1790  300+0  -> parsing works
+[23:52:56]      1,540,000 games | 76,179/s |   1.6% of file (0.50/30.98 GB)  ETA 20m31s | games with %eval 157,671 | good-move games E1=460 E2=212 E3=73 E4=10 E5=3
+[23:53:01]   [checkpoint saved at 2,000,000 games - periodic]
+[23:53:16]      3,140,000 games | 77,921/s |   3.3% of file (1.03/30.98 GB)  ETA 19m34s | games with %eval 326,961 | good-move games E1=864 E2=387 E3=143 E4=29 E5=8
+[23:53:26]   [checkpoint saved at 4,000,000 games - periodic]
+[23:53:36]      4,740,000 games | 78,346/s |   5.0% of file (1.55/30.98 GB)  ETA 19m10s | games with %eval 495,636 | good-move games E1=1,346 E2=581 E3=222 E4=53 E5=16
+[23:53:52]   [checkpoint saved at 6,000,000 games - periodic]
+[23:53:56]      6,320,000 games | 78,477/s |   6.7% of file (2.07/30.98 GB)  ETA 18m47s | games with %eval 662,430 | good-move games E1=1,738 E2=745 E3=260 E4=58 E5=17
+[23:54:16]      7,900,000 games | 78,553/s |   8.3% of file (2.59/30.98 GB)  ETA 18m24s | games with %eval 832,677 | good-move games E1=2,191 E2=946 E3=331 E4=68 E5=18
+[23:54:17]   [checkpoint saved at 8,000,000 games - periodic]
+[23:54:36]      9,480,000 games | 78,545/s |  10.0% of file (3.11/30.98 GB)  ETA 18m03s | games with %eval 996,226 | good-move games E1=2,595 E2=1,111 E3=367 E4=79 E5=22
+[23:54:43]   [checkpoint saved at 10,000,000 games - periodic]
+[23:54:56]     11,040,000 games | 78,435/s |  11.7% of file (3.62/30.98 GB)  ETA 17m43s | games with %eval 1,170,224 | good-move games E1=3,052 E2=1,314 E3=431 E4=95 E5=24
+[23:55:08]   [checkpoint saved at 12,000,000 games - periodic]
+[23:55:16]     12,620,000 games | 78,413/s |  13.4% of file (4.14/30.98 GB)  ETA 17m23s | games with %eval 1,330,377 | good-move games E1=3,396 E2=1,446 E3=474 E4=106 E5=24
+[23:55:34]   [checkpoint saved at 14,000,000 games - periodic]
+[23:55:36]     14,180,000 games | 78,318/s |  15.0% of file (4.65/30.98 GB)  ETA 17m05s | games with %eval 1,491,557 | good-move games E1=3,870 E2=1,648 E3=551 E4=116 E5=25
+[23:55:56]     15,740,000 games | 78,286/s |  16.7% of file (5.16/30.98 GB)  ETA 16m46s | games with %eval 1,648,583 | good-move games E1=4,219 E2=1,787 E3=596 E4=120 E5=25
+[23:56:00]   [checkpoint saved at 16,000,000 games - periodic]
+[23:56:17]     17,300,000 games | 78,234/s |  18.3% of file (5.67/30.98 GB)  ETA 16m27s | games with %eval 1,809,360 | good-move games E1=4,680 E2=2,005 E3=673 E4=135 E5=27
+[23:56:26]   [checkpoint saved at 18,000,000 games - periodic]
+[23:56:37]     18,820,000 games | 77,987/s |  19.9% of file (6.16/30.98 GB)  ETA 16m11s | games with %eval 1,962,698 | good-move games E1=5,028 E2=2,154 E3=716 E4=148 E5=31
+[23:56:52]   [checkpoint saved at 20,000,000 games - periodic]
+[23:56:57]     20,380,000 games | 77,920/s |  21.5% of file (6.67/30.98 GB)  ETA 15m53s | games with %eval 2,122,916 | good-move games E1=5,524 E2=2,393 E3=808 E4=169 E5=31
+[23:57:17]     21,940,000 games | 77,920/s |  23.2% of file (7.18/30.98 GB)  ETA 15m33s | games with %eval 2,278,210 | good-move games E1=5,863 E2=2,571 E3=860 E4=179 E5=31
+[23:57:18]   [checkpoint saved at 22,000,000 games - periodic]
+[23:57:37]     23,500,000 games | 77,867/s |  24.8% of file (7.69/30.98 GB)  ETA 15m14s | games with %eval 2,441,281 | good-move games E1=6,328 E2=2,801 E3=935 E4=198 E5=31
+[23:57:44]   [checkpoint saved at 24,000,000 games - periodic]
+[23:57:57]     25,040,000 games | 77,812/s |  26.4% of file (8.19/30.98 GB)  ETA 14m55s | games with %eval 2,597,603 | good-move games E1=6,684 E2=2,962 E3=981 E4=212 E5=32
+[23:58:10]   [checkpoint saved at 26,000,000 games - periodic]
+[23:58:17]     26,600,000 games | 77,778/s |  28.1% of file (8.70/30.98 GB)  ETA 14m35s | games with %eval 2,762,698 | good-move games E1=7,134 E2=3,172 E3=1,046 E4=232 E5=33
+[23:58:36]   [checkpoint saved at 28,000,000 games - periodic]
+[23:58:37]     28,140,000 games | 77,720/s |  29.7% of file (9.20/30.98 GB)  ETA 14m16s | games with %eval 2,921,261 | good-move games E1=7,525 E2=3,344 E3=1,086 E4=245 E5=34
+[23:58:58]     29,700,000 games | 77,684/s |  31.4% of file (9.72/30.98 GB)  ETA 13m56s | games with %eval 3,089,116 | good-move games E1=7,951 E2=3,516 E3=1,134 E4=259 E5=35
+[23:59:02]   [checkpoint saved at 30,000,000 games - periodic]
+[23:59:18]     31,260,000 games | 77,651/s |  33.0% of file (10.23/30.98 GB)  ETA 13m36s | games with %eval 3,247,645 | good-move games E1=8,324 E2=3,660 E3=1,184 E4=272 E5=37
+[23:59:28]   [checkpoint saved at 32,000,000 games - periodic]
+[23:59:38]     32,800,000 games | 77,601/s |  34.7% of file (10.74/30.98 GB)  ETA 13m16s | games with %eval 3,411,650 | good-move games E1=8,713 E2=3,836 E3=1,246 E4=287 E5=42
+[23:59:54]   [checkpoint saved at 34,000,000 games - periodic]
+[23:59:58]     34,360,000 games | 77,580/s |  36.3% of file (11.25/30.98 GB)  ETA 12m57s | games with %eval 3,564,763 | good-move games E1=9,083 E2=4,002 E3=1,299 E4=294 E5=43
+[00:00:19]     35,920,000 games | 77,555/s |  38.0% of file (11.76/30.98 GB)  ETA 12m37s | games with %eval 3,725,611 | good-move games E1=9,521 E2=4,187 E3=1,352 E4=303 E5=45
+[00:00:20]   [checkpoint saved at 36,000,000 games - periodic]
+[00:00:39]     37,460,000 games | 77,492/s |  39.6% of file (12.26/30.98 GB)  ETA 12m18s | games with %eval 3,877,973 | good-move games E1=9,860 E2=4,330 E3=1,386 E4=310 E5=47
+[00:00:46]   [checkpoint saved at 38,000,000 games - periodic]
+[00:00:59]     38,960,000 games | 77,371/s |  41.2% of file (12.75/30.98 GB)  ETA 11m59s | games with %eval 4,032,923 | good-move games E1=10,201 E2=4,479 E3=1,434 E4=318 E5=48
+[00:01:13]   [checkpoint saved at 40,000,000 games - periodic]
+[00:01:19]     40,460,000 games | 77,251/s |  42.7% of file (13.24/30.98 GB)  ETA 11m41s | games with %eval 4,181,880 | good-move games E1=10,580 E2=4,639 E3=1,485 E4=327 E5=49
+[00:01:39]     41,960,000 games | 77,132/s |  44.3% of file (13.73/30.98 GB)  ETA 11m23s | games with %eval 4,336,813 | good-move games E1=11,031 E2=4,842 E3=1,551 E4=345 E5=49
+[00:01:40]   [checkpoint saved at 42,000,000 games - periodic]
+[00:02:00]     43,460,000 games | 77,027/s |  45.9% of file (14.22/30.98 GB)  ETA 11m05s | games with %eval 4,486,652 | good-move games E1=11,366 E2=4,993 E3=1,600 E4=361 E5=51
+[00:02:07]   [checkpoint saved at 44,000,000 games - periodic]
+[00:02:20]     44,960,000 games | 76,923/s |  47.5% of file (14.71/30.98 GB)  ETA 10m46s | games with %eval 4,641,727 | good-move games E1=11,777 E2=5,168 E3=1,648 E4=380 E5=55
+[00:02:34]   [checkpoint saved at 46,000,000 games - periodic]
+[00:02:40]     46,460,000 games | 76,835/s |  49.0% of file (15.20/30.98 GB)  ETA 10m28s | games with %eval 4,793,314 | good-move games E1=12,130 E2=5,315 E3=1,686 E4=390 E5=61
+[00:03:00]     47,960,000 games | 76,746/s |  50.6% of file (15.68/30.98 GB)  ETA 10m09s | games with %eval 4,944,920 | good-move games E1=12,514 E2=5,495 E3=1,730 E4=396 E5=63
+[00:03:01]   [checkpoint saved at 48,000,000 games - periodic]
+[00:03:20]     49,460,000 games | 76,674/s |  52.2% of file (16.17/30.98 GB)  ETA 9m50s | games with %eval 5,093,718 | good-move games E1=12,841 E2=5,638 E3=1,770 E4=410 E5=67
+[00:03:28]   [checkpoint saved at 50,000,000 games - periodic]
+[00:03:41]     50,920,000 games | 76,544/s |  53.7% of file (16.65/30.98 GB)  ETA 9m32s | games with %eval 5,246,303 | good-move games E1=13,225 E2=5,808 E3=1,821 E4=420 E5=71
+[00:03:55]   [checkpoint saved at 52,000,000 games - periodic]
+[00:04:01]     52,400,000 games | 76,455/s |  55.3% of file (17.14/30.98 GB)  ETA 9m13s | games with %eval 5,394,333 | good-move games E1=13,553 E2=5,936 E3=1,855 E4=425 E5=75
+[00:04:21]     53,900,000 games | 76,395/s |  56.9% of file (17.63/30.98 GB)  ETA 8m54s | games with %eval 5,548,425 | good-move games E1=13,958 E2=6,110 E3=1,901 E4=441 E5=77
+[00:04:22]   [checkpoint saved at 54,000,000 games - periodic]
+[00:04:41]     55,420,000 games | 76,358/s |  58.5% of file (18.13/30.98 GB)  ETA 8m34s | games with %eval 5,695,382 | good-move games E1=14,257 E2=6,227 E3=1,923 E4=446 E5=79
+[00:04:49]   [checkpoint saved at 56,000,000 games - periodic]
+[00:05:01]     56,940,000 games | 76,332/s |  60.1% of file (18.62/30.98 GB)  ETA 8m15s | games with %eval 5,844,338 | good-move games E1=14,663 E2=6,393 E3=1,972 E4=453 E5=82
+[00:05:15]   [checkpoint saved at 58,000,000 games - periodic]
+[00:05:21]     58,460,000 games | 76,323/s |  61.7% of file (19.12/30.98 GB)  ETA 7m55s | games with %eval 5,990,233 | good-move games E1=15,012 E2=6,561 E3=2,017 E4=458 E5=82
+[00:05:41]     59,980,000 games | 76,310/s |  63.3% of file (19.61/30.98 GB)  ETA 7m35s | games with %eval 6,141,009 | good-move games E1=15,459 E2=6,767 E3=2,074 E4=470 E5=86
+[00:05:42]   [checkpoint saved at 60,000,000 games - periodic]
+[00:06:01]     61,520,000 games | 76,316/s |  64.9% of file (20.11/30.98 GB)  ETA 7m15s | games with %eval 6,292,719 | good-move games E1=15,805 E2=6,925 E3=2,109 E4=484 E5=90
+[00:06:08]   [checkpoint saved at 62,000,000 games - periodic]
+[00:06:22]     63,040,000 games | 76,306/s |  66.5% of file (20.61/30.98 GB)  ETA 6m56s | games with %eval 6,441,931 | good-move games E1=16,224 E2=7,108 E3=2,164 E4=494 E5=91
+[00:06:34]   [checkpoint saved at 64,000,000 games - periodic]
+[00:06:42]     64,560,000 games | 76,296/s |  68.1% of file (21.10/30.98 GB)  ETA 6m36s | games with %eval 6,588,928 | good-move games E1=16,586 E2=7,257 E3=2,206 E4=506 E5=97
+[00:07:00]   [checkpoint saved at 66,000,000 games - periodic]
+[00:07:02]     66,100,000 games | 76,288/s |  69.7% of file (21.59/30.98 GB)  ETA 6m16s | games with %eval 6,710,849 | good-move games E1=16,964 E2=7,404 E3=2,277 E4=516 E5=99
+[00:07:22]     67,640,000 games | 76,298/s |  71.3% of file (22.09/30.98 GB)  ETA 5m56s | games with %eval 6,831,545 | good-move games E1=17,270 E2=7,523 E3=2,313 E4=526 E5=100
+[00:07:27]   [checkpoint saved at 68,000,000 games - periodic]
+[00:07:42]     69,160,000 games | 76,280/s |  72.9% of file (22.58/30.98 GB)  ETA 5m37s | games with %eval 6,977,262 | good-move games E1=17,700 E2=7,702 E3=2,366 E4=533 E5=102
+[00:07:53]   [checkpoint saved at 70,000,000 games - periodic]
+[00:08:02]     70,680,000 games | 76,268/s |  74.5% of file (23.08/30.98 GB)  ETA 5m17s | games with %eval 7,123,724 | good-move games E1=17,996 E2=7,810 E3=2,389 E4=536 E5=102
+[00:08:19]   [checkpoint saved at 72,000,000 games - periodic]
+[00:08:22]     72,200,000 games | 76,257/s |  76.1% of file (23.58/30.98 GB)  ETA 4m57s | games with %eval 7,281,754 | good-move games E1=18,375 E2=7,944 E3=2,435 E4=544 E5=103
+[00:08:42]     73,740,000 games | 76,256/s |  77.7% of file (24.08/30.98 GB)  ETA 4m37s | games with %eval 7,435,064 | good-move games E1=18,706 E2=8,077 E3=2,465 E4=549 E5=103
+[00:08:46]   [checkpoint saved at 74,000,000 games - periodic]
+[00:09:03]     75,260,000 games | 76,233/s |  79.3% of file (24.58/30.98 GB)  ETA 4m17s | games with %eval 7,584,217 | good-move games E1=19,146 E2=8,251 E3=2,513 E4=560 E5=103
+[00:09:12]   [checkpoint saved at 76,000,000 games - periodic]
+[00:09:23]     76,780,000 games | 76,225/s |  80.9% of file (25.08/30.98 GB)  ETA 3m57s | games with %eval 7,725,882 | good-move games E1=19,494 E2=8,381 E3=2,548 E4=567 E5=105
+[00:09:39]   [checkpoint saved at 78,000,000 games - periodic]
+[00:09:43]     78,300,000 games | 76,207/s |  82.5% of file (25.57/30.98 GB)  ETA 3m37s | games with %eval 7,868,973 | good-move games E1=19,873 E2=8,527 E3=2,593 E4=572 E5=105
+[00:10:03]     79,840,000 games | 76,214/s |  84.1% of file (26.07/30.98 GB)  ETA 3m17s | games with %eval 8,010,717 | good-move games E1=20,208 E2=8,668 E3=2,632 E4=583 E5=109
+[00:10:05]   [checkpoint saved at 80,000,000 games - periodic]
+[00:10:23]     81,340,000 games | 76,189/s |  85.7% of file (26.55/30.98 GB)  ETA 2m58s | games with %eval 8,151,319 | good-move games E1=20,623 E2=8,841 E3=2,680 E4=592 E5=110
+[00:10:32]   [checkpoint saved at 82,000,000 games - periodic]
+[00:10:43]     82,760,000 games | 76,080/s |  87.2% of file (27.01/30.98 GB)  ETA 2m39s | games with %eval 8,283,071 | good-move games E1=20,932 E2=8,968 E3=2,727 E4=599 E5=111
+[00:11:00]   [checkpoint saved at 84,000,000 games - periodic]
+[00:11:03]     84,220,000 games | 76,020/s |  88.7% of file (27.49/30.98 GB)  ETA 2m20s | games with %eval 8,418,821 | good-move games E1=21,323 E2=9,152 E3=2,788 E4=606 E5=112
+[00:11:23]     85,740,000 games | 76,012/s |  90.3% of file (27.98/30.98 GB)  ETA 2m01s | games with %eval 8,562,075 | good-move games E1=21,635 E2=9,279 E3=2,832 E4=614 E5=113
+[00:11:27]   [checkpoint saved at 86,000,000 games - periodic]
+[00:11:43]     87,240,000 games | 75,991/s |  91.9% of file (28.46/30.98 GB)  ETA 1m41s | games with %eval 8,701,370 | good-move games E1=22,055 E2=9,468 E3=2,895 E4=627 E5=113
+[00:11:54]   [checkpoint saved at 88,000,000 games - periodic]
+[00:12:03]     88,740,000 games | 75,972/s |  93.4% of file (28.94/30.98 GB)  ETA 1m22s | games with %eval 8,841,021 | good-move games E1=22,430 E2=9,623 E3=2,950 E4=637 E5=116
+[00:12:20]   [checkpoint saved at 90,000,000 games - periodic]
+[00:12:24]     90,240,000 games | 75,940/s |  94.9% of file (29.40/30.98 GB)  ETA 1m03s | games with %eval 8,968,604 | good-move games E1=22,780 E2=9,746 E3=2,975 E4=641 E5=117
+[00:12:44]     91,720,000 games | 75,908/s |  96.4% of file (29.86/30.98 GB)  ETA 0m45s | games with %eval 9,100,447 | good-move games E1=23,089 E2=9,871 E3=3,007 E4=653 E5=121
+[00:12:48]   [checkpoint saved at 92,000,000 games - periodic]
+[00:13:04]     93,200,000 games | 75,870/s |  97.8% of file (30.31/30.98 GB)  ETA 0m27s | games with %eval 9,225,946 | good-move games E1=23,383 E2=9,971 E3=3,036 E4=661 E5=121
+[00:13:15]   [checkpoint saved at 94,000,000 games - periodic]
+[00:13:24]     94,700,000 games | 75,842/s |  99.3% of file (30.77/30.98 GB)  ETA 0m08s | games with %eval 9,353,723 | good-move games E1=23,753 E2=10,129 E3=3,092 E4=675 E5=121
+[00:13:34]   finished streaming: 95,395,628 games in 20m58s (this session)
+
+[00:13:34] STEP 4/6  Summary tables
+[00:13:34] tierdescription                                                        games  good-move games  (<=10cp)  good pairs
+[00:13:34] -------------------------------------------------------------------------------------------------------------------
+[00:13:34] B0  baseline: your current config (no eval needed)                 1,268,762                -         -           -
+[00:13:34] E1  elite: both >= 2200, gap <= 100, rapid+, eval, no bots            23,971           23,882    23,857     613,726
+[00:13:34] E2  elite: both >= 2300, gap <= 100, rapid+, eval, no bots            10,212           10,186    10,178     273,560
+[00:13:34] E3  elite: both >= 2400, gap <= 100, rapid+, eval, no bots             3,122            3,118     3,117      87,302
+[00:13:34] E4  elite: both >= 2500, gap <= 100, rapid+, eval, no bots               684              683       683      19,576
+[00:13:34] E5  elite: both >= 2600, gap <= 100, rapid+, eval, no bots               122              121       121       3,515
+
+[00:13:34]   Funnel (games remaining after each criterion):
+[00:13:34]     B0: read 95,395,628 -> elo 22,799,188 -> gap 22,799,188 -> time 2,453,060 -> normal+result+bot 2,161,582 -> plies 1,268,762
+[00:13:34]     E1: read 95,395,628 -> elo 5,796,478 -> gap 4,601,306 -> time 100,095 -> normal+result+bot 74,035 -> plies 47,153 -> has_eval 23,971 -> good_move_position 23,882
+[00:13:34]     E2: read 95,395,628 -> elo 3,368,737 -> gap 2,609,627 -> time 42,892 -> normal+result+bot 25,514 -> plies 16,807 -> has_eval 10,212 -> good_move_position 10,186
+[00:13:34]     E3: read 95,395,628 -> elo 1,853,698 -> gap 1,391,822 -> time 19,986 -> normal+result+bot 6,187 -> plies 4,207 -> has_eval 3,122 -> good_move_position 3,118
+[00:13:34]     E4: read 95,395,628 -> elo 998,660 -> gap 720,969 -> time 13,012 -> normal+result+bot 1,096 -> plies 804 -> has_eval 684 -> good_move_position 683
+[00:13:34]     E5: read 95,395,628 -> elo 534,440 -> gap 371,153 -> time 11,159 -> normal+result+bot 175 -> plies 139 -> has_eval 122 -> good_move_position 121
+
+[00:13:34]   Highest-rated games with a good position-move pair (top 10 of 50 saved in the JSON):
+[00:13:34]     min Elo 2725  (2754 v 2725)     600+0  good pairs  27  https://lichess.org/game/kz8sLevL
+[00:13:34]     min Elo 2718  (2743 v 2718)     600+0  good pairs  27  https://lichess.org/game/ne4moQSF
+[00:13:34]     min Elo 2711  (2742 v 2711)     600+0  good pairs  23  https://lichess.org/game/UPGaecJF
+[00:13:34]     min Elo 2706  (2723 v 2706)     600+0  good pairs  39  https://lichess.org/game/H1znMFPn
+[00:13:34]     min Elo 2703  (2737 v 2703)     600+0  good pairs  25  https://lichess.org/game/UbTyzD6U
+[00:13:34]     min Elo 2698  (2776 v 2698)     600+0  good pairs  15  https://lichess.org/game/WOgefsou
+[00:13:34]     min Elo 2692  (2692 v 2774)     600+0  good pairs   4  https://lichess.org/game/VrcjHPsp
+[00:13:34]     min Elo 2681  (2681 v 2763)     600+0  good pairs  21  https://lichess.org/game/yLweCElJ
+[00:13:34]     min Elo 2681  (2712 v 2681)     600+0  good pairs  39  https://lichess.org/game/TnI0wnFl
+[00:13:34]     min Elo 2678  (2705 v 2678)     480+0  good pairs  16  https://lichess.org/game/Kq6539R7
+
+[00:13:34] STEP 5/6  Choosing the pool tier and exporting candidates
+[00:13:34]   pool tier E5: 121 good-move games (reservoir holds 121); selection = random
+[00:13:34]   C001  Ne2     loss   0 cp  Elo 2700/2659  ply 42  https://lichess.org/game/QssCsPsI
+[00:13:34]   C002  Kh8     loss   8 cp  Elo 2610/2622  ply 31  https://lichess.org/game/udl3r1Ha
+[00:13:34]   C003  Bxf5    loss   0 cp  Elo 2643/2697  ply 20  https://lichess.org/game/Rby6aIbg
+[00:13:34]   C004  Rxd6    loss   3 cp  Elo 2619/2685  ply 37  https://lichess.org/game/QKFAdSoW
+[00:13:34]   C005  cxd4    loss  22 cp  Elo 2628/2629  ply 18  https://lichess.org/game/TJa6mgKo
+[00:13:34]   C006  Nfe3    loss   7 cp  Elo 2761/2672  ply 26  https://lichess.org/game/7ZOnNuv8
+[00:13:34]   C007  Kh1     loss   4 cp  Elo 2632/2660  ply 22  https://lichess.org/game/dj9XY9Wj
+[00:13:34]   C008  Qa5     loss   0 cp  Elo 2634/2693  ply 21  https://lichess.org/game/tehp5yA7
+[00:13:34]   C009  Rxc6    loss  23 cp  Elo 2646/2658  ply 34  https://lichess.org/game/4dp6kiP6
+[00:13:34]   C010  Rcd1    loss   0 cp  Elo 2613/2633  ply 55  https://lichess.org/game/kAba1Bvd
+[00:13:34]   C011  Rxe8+   loss   0 cp  Elo 2679/2605  ply 48  https://lichess.org/game/KGk9zPLA
+[00:13:34]   C012  Qb6     loss  23 cp  Elo 2601/2607  ply 45  https://lichess.org/game/LYGTQnIn
+[00:13:34]   C013  Qd7     loss   2 cp  Elo 2635/2626  ply 33  https://lichess.org/game/BbcU9jSD
+[00:13:34]   C014  Nc3     loss   5 cp  Elo 2692/2774  ply 22  https://lichess.org/game/VrcjHPsp
+[00:13:34]   C015  Rxb1    loss   0 cp  Elo 2644/2630  ply 36  https://lichess.org/game/H5tP1bSa
+[00:13:34]   C016  Bc3     loss  26 cp  Elo 2604/2667  ply 40  https://lichess.org/game/IhW061YZ
+[00:13:34]   C017  a4      loss  14 cp  Elo 2614/2619  ply 22  https://lichess.org/game/dSEeXGJN
+[00:13:34]   C018  dxe5    loss  10 cp  Elo 2609/2636  ply 29  https://lichess.org/game/m7thtbDv
+[00:13:34]   C019  Nc3     loss   0 cp  Elo 2613/2650  ply 58  https://lichess.org/game/JexI3WFz
+[00:13:34]   C020  e4      loss  16 cp  Elo 2743/2718  ply 28  https://lichess.org/game/ne4moQSF
+[00:13:34]   C021  dxe6    loss   7 cp  Elo 2737/2703  ply 30  https://lichess.org/game/UbTyzD6U
+[00:13:34]   C022  Nxg7    loss   0 cp  Elo 2662/2622  ply 27  https://lichess.org/game/61U0QaUH
+[00:13:34]   C023  axb5    loss   7 cp  Elo 2708/2637  ply 19  https://lichess.org/game/plTpdt9E
+[00:13:34]   C024  Re1     loss   0 cp  Elo 2641/2627  ply 22  https://lichess.org/game/D25h8Pe9
+[00:13:34]   C025  Nd4     loss   0 cp  Elo 2647/2615  ply 36  https://lichess.org/game/dHcyHeVU
+[00:13:34]   C026  Re6     loss   7 cp  Elo 2618/2619  ply 53  https://lichess.org/game/BpcbozqS
+[00:13:34]   C027  Be6     loss   1 cp  Elo 2669/2612  ply 31  https://lichess.org/game/dqdf8IeG
+[00:13:34]   C028  Bg5     loss  12 cp  Elo 2641/2639  ply 18  https://lichess.org/game/2ChdQv5h
+[00:13:34]   C029  Nh7     loss  16 cp  Elo 2604/2625  ply 41  https://lichess.org/game/YPrKnVZu
+[00:13:34]   C030  a3      loss  14 cp  Elo 2634/2601  ply 32  https://lichess.org/game/8ajNmJdR
+[00:13:34]   C031  Nxe5    loss   6 cp  Elo 2685/2606  ply 27  https://lichess.org/game/c36hM7TO
+[00:13:34]   C032  h5      loss   0 cp  Elo 2612/2652  ply 34  https://lichess.org/game/eARj8YSV
+[00:13:34]   C033  hxg3    loss   0 cp  Elo 2603/2667  ply 30  https://lichess.org/game/aW17LVvI
+[00:13:34]   C034  Ne7     loss   1 cp  Elo 2738/2659  ply 23  https://lichess.org/game/i7aLlXvr
+[00:13:34]   C035  Qc2     loss  30 cp  Elo 2669/2603  ply 24  https://lichess.org/game/nTjaxp2r
+[00:13:34]   C036  Nc4     loss  19 cp  Elo 2671/2661  ply 58  https://lichess.org/game/rFyuoTG3
+[00:13:34]   C037  Ba4     loss   0 cp  Elo 2615/2602  ply 25  https://lichess.org/game/hrQv3Zg6
+[00:13:34]   C038  e4      loss   0 cp  Elo 2776/2698  ply 41  https://lichess.org/game/WOgefsou
+[00:13:34]   C039  Bxf4    loss   0 cp  Elo 2636/2617  ply 48  https://lichess.org/game/V3uHT9Ve
+[00:13:34]   C040  Qxd4    loss   0 cp  Elo 2635/2602  ply 24  https://lichess.org/game/ILfhRBfO
+[00:13:34]   exported 40 candidates (games without a usable position: 0; positions skipped as duplicates: 0; games skipped by the per-player cap: 34; distinct players in export: 61)
+
+[00:13:34] STEP 6/6  Writing files
+[00:13:34]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\2026-10_full\elite_counts.json
+[00:13:34]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\2026-10_full\01_candidates.jsonl   (sha256 5de91d16625d21bc...)
+[00:13:34]   D:\files for Germany\srh\GitHub files\chess-explanations-thesis\outputs\elite_count\2026-10_full\run_log.txt
+[00:13:34]   results_sha256 = cefeba3450f512053102437a698693eac3271b5d943a89735220acb544031097
+[00:13:34]   input sha256 of consumed bytes = 043906ebfade1bfe... (30,982,323,881 compressed bytes)
+
+[00:13:34] DONE. Next:  python run_elite_step.py 02   (checks each move with YOUR Stockfish; no copying needed)
