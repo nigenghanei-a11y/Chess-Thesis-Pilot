@@ -1,0 +1,208 @@
+{
+ "results_sha256": "0d676d7b2538409412518f61b4cdcc01021f504d309b8e58c8b0e9a83f06df13",
+ "manifest": {
+  "script_sha256": "0add1bca834e678b5da6b15424c114ce4c0bf1c9d1744b7348d25d33f0c9f680",
+  "command_line": "profile_raw_dataset.py --input data\\raw\\lichess_db_standard_rated_2026-10.pgn.zst",
+  "input_name": "lichess_db_standard_rated_2026-10.pgn.zst",
+  "compressed_bytes_consumed": 30982323881,
+  "sha256_of_consumed_compressed_bytes": "043906ebfade1bfeb7c00087590fac505370936c028525e4722e2dbd4986ae86",
+  "consumed_whole_file": true,
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+   "zstandard": "0.25.0",
+   "numpy": "2.4.6"
+  },
+  "seconds": 2862,
+  "timestamp_utc": "2026-11-12T02:24:35Z"
+ },
+ "results": {
+  "file": "lichess_db_standard_rated_2026-10.pgn.zst",
+  "games_read": 95395628,
+  "partial": false,
+  "header_tags": {
+   "Event": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Site": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Date": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Round": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "White": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Black": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Result": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "UTCDate": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "UTCTime": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "WhiteElo": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "BlackElo": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "ECO": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Opening": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "TimeControl": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "Termination": {
+    "games_with_tag": 95395628,
+    "pct": 100.0
+   },
+   "WhiteRatingDiff": {
+    "games_with_tag": 94507873,
+    "pct": 99.069
+   },
+   "BlackRatingDiff": {
+    "games_with_tag": 94507873,
+    "pct": 99.069
+   },
+   "BlackTitle": {
+    "games_with_tag": 882285,
+    "pct": 0.925
+   },
+   "WhiteTitle": {
+    "games_with_tag": 867335,
+    "pct": 0.909
+   }
+  },
+  "engine_eval_annotations": {
+   "games_with_eval": 9409507,
+   "pct": 9.864,
+   "games_with_clock": 94898369,
+   "pct_clock": 99.479
+  },
+  "quality": {
+   "games_missing_or_invalid_elo": 0,
+   "games_without_moves": 407406,
+   "games_with_bot_account": 494406,
+   "games_with_any_title": 1301361,
+   "duplicate_game_ids": null
+  },
+  "elo_white": {
+   "n": 95395628,
+   "min": 400,
+   "max": 3581,
+   "mean": 1634.5,
+   "p1": 742,
+   "p5": 964,
+   "p25": 1356,
+   "median": 1645,
+   "p75": 1912,
+   "p95": 2277,
+   "p99": 2556
+  },
+  "elo_black": {
+   "n": 95395628,
+   "min": 400,
+   "max": 3599,
+   "mean": 1634.3,
+   "p1": 741,
+   "p5": 964,
+   "p25": 1355,
+   "median": 1645,
+   "p75": 1912,
+   "p95": 2277,
+   "p99": 2556
+  },
+  "results": {
+   "1-0": 47187809,
+   "0-1": 44072927,
+   "1/2-1/2": 3658456,
+   "*": 476436
+  },
+  "terminations": {
+   "Normal": 64663779,
+   "Time forfeit": 29987114,
+   "Abandoned": 697173,
+   "Unterminated": 29344,
+   "Insufficient material": 15458,
+   "Rules infraction": 2760
+  },
+  "speed_categories": {
+   "blitz": {
+    "games": 43838414,
+    "pct": 45.954,
+    "with_eval": 4236579,
+    "pct_with_eval": 9.664
+   },
+   "bullet": {
+    "games": 33313892,
+    "pct": 34.922,
+    "with_eval": 1897652,
+    "pct_with_eval": 5.696
+   },
+   "rapid": {
+    "games": 16619874,
+    "pct": 17.422,
+    "with_eval": 3006309,
+    "pct_with_eval": 18.089
+   },
+   "ultraBullet": {
+    "games": 923860,
+    "pct": 0.968,
+    "with_eval": 73427,
+    "pct_with_eval": 7.948
+   },
+   "classical": {
+    "games": 599899,
+    "pct": 0.629,
+    "with_eval": 184075,
+    "pct_with_eval": 30.684
+   },
+   "correspondence / no clock": {
+    "games": 99689,
+    "pct": 0.105,
+    "with_eval": 11465,
+    "pct_with_eval": 11.501
+   }
+  },
+  "titles": {
+   "BOT": 883565,
+   "FM": 311667,
+   "CM": 163320,
+   "IM": 145184,
+   "NM": 125489,
+   "GM": 64745,
+   "WFM": 23969,
+   "WIM": 12333,
+   "WCM": 10400,
+   "LM": 3967,
+   "WGM": 3501,
+   "WNM": 1480
+  },
+  "note": "game length = last move number near the end of the movetext (approximate); Elo bins use the average of both players"
+ }
+}
