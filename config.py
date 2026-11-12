@@ -7,7 +7,7 @@ OUT_DIR = ROOT / "outputs"
 
 # ---- Reproducibility ----
 SEED = 42
-N_PILOT = 10          # final number of position-move pairs in the pilot
+N_PILOT = 150          # final number of position-move pairs in the pilot
 N_CANDIDATES = 40     # oversample: some candidates get dropped by the engine filters (step 3)
 
 # ---- Data source (pin ONE monthly file; 2013-01 is tiny, ~17 MB) ----
