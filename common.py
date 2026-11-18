@@ -18,7 +18,7 @@ def config_snapshot():
 
 def write_manifest(path, step, extra=None):
     pkgs = {}
-    for p in ["chess", "zstandard", "requests", "pandas", "scipy", "ollama"]:
+    for p in ["chess", "zstandard", "requests", "pandas", "scipy", "statsmodels", "ollama"]:
         try:
             pkgs[p] = metadata.version(p)
         except metadata.PackageNotFoundError:
