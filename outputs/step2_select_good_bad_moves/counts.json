@@ -1,0 +1,9 @@
+{
+  "games": 122,
+  "with_good": 121,
+  "with_bad": 104,
+  "with_both": 104,
+  "eligible_good_moves": 3515,
+  "eligible_bad_moves": 378,
+  "candidates_written": 225
+}

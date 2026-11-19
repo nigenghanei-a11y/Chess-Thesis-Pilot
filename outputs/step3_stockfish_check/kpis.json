@@ -1,0 +1,13 @@
+{
+  "n_positions": 202,
+  "n_games": 119,
+  "by_label": {
+    "good": 114,
+    "bad": 88
+  },
+  "duplicate_positions": 0,
+  "duplicate_candidate_ids": 0,
+  "games_with_both_labels": 83,
+  "human_move_is_engine_best_share": 0.371,
+  "white_to_move_share": 0.505
+}

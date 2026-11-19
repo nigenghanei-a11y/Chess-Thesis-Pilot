@@ -28,7 +28,7 @@ BAD_MIN_CP_LOSS = 100                 # used when METRIC == "cp"
 BAD_MIN_WP_LOSS = 10                  # used when METRIC == "wp"
 
 # ---- Stockfish (step 3) ----
-STOCKFISH_PATH = os.environ.get("STOCKFISH_PATH", "stockfish/stockfish.exe")
+STOCKFISH_PATH = os.environ.get("STOCKFISH_PATH", r"stockfish\stockfish-windows-x86-64-universal.exe")
 STOCKFISH_DEPTH = 18
 STOCKFISH_THREADS = 1
 STOCKFISH_HASH_MB = 128
