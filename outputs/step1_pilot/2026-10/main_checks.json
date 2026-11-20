@@ -1,0 +1,36 @@
+{
+  "rows / games / by kind": "429 / 258 / {'good': 239, 'bad': 190}",
+  "position_id unique": 0,
+  "at most one position per game and kind": 1,
+  "pilot games absent from main": 0,
+  "pilot FENs absent from main": 0,
+  "duplicate board positions in main": 0,
+  "good: cp_loss <= GOOD_MAX_CP_LOSS": 0,
+  "bad: cp_loss >= BAD_MIN_CP_LOSS": 0,
+  "kind == stockfish_label": 0,
+  "cp_loss recomputes from evals": 0,
+  "|eval before| <= MAX_ABS_EVAL_CP": 0,
+  "fullmove within window": 0,
+  "winprob_drop is exact (not rounded)": true,
+  "FEN + SAN + UCI parse and agree": 0,
+  "bad positions whose played move IS Stockfish's best move": 0,
+  "good positions whose move is not engine-best (<=30 cp, acceptable)": 75,
+  "bad cp_loss quartiles": {
+    "0.25": 143.0,
+    "0.5": 203.0,
+    "0.75": 277.0
+  },
+  "good: share captures / median legal moves / share <=10 legal moves": "0.28 / 38 / 0.00",
+  "bad: share captures / median legal moves / share <=10 legal moves": "0.23 / 37 / 0.01",
+  "unique players / top-5 players (games)": "173 / {'Garry-Kasparov2400': 33, 'hibyehwa': 28, 'pzpzzz': 16, 'enclasesUNI': 15, 'Soulmate123': 15}",
+  "share of games involving a top-5 player": 0.38,
+  "games with both a good and a bad position": 171,
+  "time controls": {
+    "600+0": 384,
+    "480+0": 26,
+    "600+5": 11,
+    "300+5": 8
+  },
+  "flags": [],
+  "flagged_ids": {}
+}

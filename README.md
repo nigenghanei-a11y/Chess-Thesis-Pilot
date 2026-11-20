@@ -78,15 +78,46 @@ On Windows, the final cell selects the Proactor event-loop policy so Jupyter can
 - Rechecks the position before and after the played move, confirms the good/bad label using the configured thresholds, and records the best move, evaluations, principal variations, and rejection reasons.
 - Outputs go to `outputs/stockfish_recheck/<month>/`: `analysed_all.jsonl`, `positions_stockfish.csv`, `positions_rejected.csv`, `kpis.json`, and `stockfish_manifest.json`. The analysis is resumable; `resume_state.json` is a working file and is ignored by Git.
 - The manifest records hashes for the input, engine, Step 2 notebook code, and outputs, plus config and Git state. Commit notebook/config changes before running for a clean Git provenance record.
+- **Status: Step 2 is finished for 2026-10 (506 analysed, 446 kept: 248 good, 198 bad; 60 rejected). Do not edit or re-run the Step 2 cells.** `RUN_STOCKFISH = True` sits inside the tagged Step 2 cell and is part of its source hash, so changing it makes the pilot notebook's validation fail and would require re-running Stockfish on all 506 positions.
+- The 60 rejected positions have two possible reasons (53 `label_not_confirmed_by_stockfish`, 12 `already_decided`). The counts sum to 65 because five positions failed both checks.
 
 The notebooks under `chess-explanations-thesis_OLD/` document the earlier three-notebook workflow. The current Step 1 combines the old game-filter and move-selection stages; the old Stockfish notebook is not used by this pipeline.
 
 ## Step 1 pilot - prepare a shared LLM pilot set
 After Step 2 completes, run `step1_pilot.ipynb`. It samples `PILOT_POSITIONS_PER_KIND` good and the same number of bad positions from `outputs/stockfish_recheck/<month>/positions_stockfish.csv`; the default is 5 of each. This is a small, fast sampling step and does not rerun raw-data selection or Stockfish analysis.
 
-The notebook writes `outputs/step1_pilot/<month>/pilot_for_llm.csv` with only the position, side to move, and played move, plus `pilot_key.csv` with the hidden labels and Stockfish reference data. Give every LLM the same `pilot_for_llm.csv`; keep the key out of model prompts. Treat this input as fixed across models and save each model's generations separately (for example under `outputs/llm_pilot/<month>/<model>/`) so comparisons use identical positions. The notebook verifies the source manifests and hashes and refuses to replace an existing different pilot sample.
+The notebook writes `outputs/step1_pilot/<month>/pilot_for_llm.csv` with only the position, side to move, and played move, plus `pilot_key.csv` with the hidden labels and Stockfish reference data. Give every LLM the same `pilot_for_llm.csv`; keep the key out of model prompts. Treat this input as fixed across models and save each model's generations separately (`step3_llm_pilot.py` writes them under `outputs/step3_llm_pilot/<month>/<model>/`) so comparisons use identical positions. The notebook verifies the source manifests and hashes and refuses to replace an existing different pilot sample.
+
+## Main dataset - pilot games removed
+The last cell of `step1_pilot.ipynb` writes `outputs/step1_pilot/<month>/positions_main.csv`: every Stockfish-checked position except those from games that appear in `pilot_key.csv`. The exclusion is by game, so a pilot game contributes nothing to the main set (not even its other good/bad position). `main_manifest.json` stores the pilot game IDs, the counts and the SHA-256 of `positions_main.csv` and `pilot_manifest.json`.
+
+Current counts: 429 positions (239 good, 190 bad) from 258 games; 171 games have both a good and a bad position. **Use `positions_main.csv`, not `positions_final.csv` or `positions_stockfish.csv`, for every later step.** In this file `stockfish_winprob_drop` is recomputed exactly from the stored evaluations (see the known issue below).
+
+`python check_main_dataset.py` validates it: unique IDs, no pilot games or FENs, labels and cp thresholds, cp loss recomputed from the evals, evaluation and move-number windows, FEN/SAN/UCI parsing, and that no "bad" move is Stockfish's own best move. It writes `main_checks.json` and changes no data. It passed all checks on the current data (0 bad positions with an engine-best move). Re-run it after any change to `positions_main.csv`.
+
+## Known issues and limitations
+- **Rounded win-probability drop.** Step 2 stored `round(wp_drop, 1)`, so `winprob_drop` / `stockfish_winprob_drop` in `positions_stockfish.csv`, `positions_rejected.csv`, `analysed_all.jsonl` and `pilot_key.csv` have one decimal only. Good/bad labels use centipawns (`BAD_DEFINITION = "cp"`) and are not affected. `positions_main.csv` has the exact value recomputed from `eval_before_cp` and `eval_after_cp`; never use the rounded columns for analysis. Step 2 was not changed, because editing its cell would invalidate the hash chain and require a full Stockfish re-run. If you rebuild the pipeline from scratch before submission, remove the rounding in `analyse_position`.
+- **Search noise.** Root and child searches at depth 18 sometimes disagree (some rejected positions have an engine-best human move with a large cp loss). Rejected rows are excluded; the check above confirms no kept bad position is engine-best.
+- **Players repeat.** 258 games involve 173 players; the most frequent account appears in 33 games and the top five accounts are involved in 38% of the games. The analysis needs a player-level sensitivity check (for example capping games per player).
+- **Time control.** 89% of the main games are 10+0, so conclusions concern 10-minute games.
+- **Selection effects.** Only games with Lichess computer evaluations are used, and the P99 threshold is computed over game-player rating records, not unique accounts.
+- Manifests of Steps 1-2 and the pilot record `git_uncommitted_changes: true` because they were produced before the final commit; the file hashes and the git tags (`pilot-v1`, `main-checked-v1`) document the final state.
+
+## Step 3 pilot - Condition A with four local models
+`step3_llm_pilot.py` generates Condition A explanations (no engine information) for the 10 pilot positions with local Ollama models (default tags: `qwen2.5:7b`, `llama3.1:8b`, `deepseek-r1:8b`, `phi4-mini`; check with `ollama list`). Ollama is installed separately and is not in `requirements.txt`. Run inside the `.venv`:
+
+```powershell
+python step3_llm_pilot.py --models llama3.1:8b --limit 2 --repeats 1   # smoke test
+python step3_llm_pilot.py --repeats 2                                    # all four models, 10 positions
+python step3_llm_pilot.py --mock --repeats 2                             # test the script without Ollama
+```
+
+- Settings per request: temperature `LLM_TEMPERATURE`, seed `SEED_LLM`, CPU only (`num_gpu: 0`), fixed thread count, `LLM_NUM_CTX` and `LLM_MAX_TOKENS`; `deepseek-r1` gets a larger budget (3000 tokens, context 4096) and its `<think>` text is stored separately. Repeats use identical settings to measure run-to-run variation.
+- The prompt is neutral (it does not say the move is good), is identical for all models, and its hash is stored. `--with-board` adds an ASCII board; decide once and keep it fixed.
+- Outputs in `outputs/step3_llm_pilot/<month>/`: per model `generations.jsonl` (text, thinking, raw output, `done_reason`, truncation flag, tokens, seconds) and `run_manifest.json` (model digest, Ollama version, settings, prompt hash, input hash, git commit, script hash, hardware); across models `summary.csv` (speed, truncation), `variation.csv` (distinct texts per position across repeats) and `review_sheet.csv` (for counting claims and errors by hand). `--mock` writes to a separate `_MOCK` folder.
+- Resuming skips finished (position, repeat) pairs; if the settings or prompt changed, the script refuses and asks you to move the old folder aside.
 
 ## Planned steps
-3. Use the fixed pilot set to test the planned explanation conditions across candidate LLMs; keep each model's outputs separate. Choose the model and settings before main generation.
+3. Test candidate LLMs on the fixed pilot set with `step3_llm_pilot.py` (Condition A first; conditions B-D follow once the model and prompt are fixed). Choose the model and settings before main generation.
 4. Claim extraction, verification, blind second annotation (about 20% of claims, Cohen's kappa), repair condition D
 5. Analysis (plan frozen and git-tagged before the main generation)
