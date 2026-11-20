@@ -34,7 +34,8 @@ BAD_MIN_WINPROB_DROP = 0.10  # alternative definition, in win probability (0-1)
 POSITIONS_PER_GAME = {"good": 1, "bad": 1}
 
 # ---- Pilot ----
-PILOT_N = 10
+PILOT_N = 10                  # whole games in the optional Step 1 pilot split
+PILOT_POSITIONS_PER_KIND = 5  # fixed LLM pilot sample: 5 Stockfish-checked good + 5 bad positions
 PILOT_EXCLUDED_FROM_FINAL = True
 
 # ---- Stockfish ----

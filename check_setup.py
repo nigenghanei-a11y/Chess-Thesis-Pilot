@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 EXPECTED_PYTHON = (3, 11, 9)                      # README: Python 3.11.9
 MIN_FREE_GB = 40                                  # ~31 GB raw file + ~1 GB working files + margin
 FILES = ["config.py", "README.md", "requirements.txt", "requirements-lock.txt",
-         "step0_download_and_profile.ipynb", "step1_select_positions.ipynb",
+         "step0_download_and_profile.ipynb", "step1_select_positions.ipynb", "step1_pilot.ipynb",
          "check_setup.py", ".gitignore"]
 REQUIRED_GITIGNORE = [".venv/", "data/raw/", "outputs/**/checkpoint.pkl", "outputs/**/profile_state.pkl",
                       "outputs/**/game_ids.u64", "outputs/step1_dataset/**/candidate_games.pgn",
@@ -27,7 +27,7 @@ CONFIG_NAMES = ["MONTH", "BASE_URL", "LICHESS_FILE", "ELO_MIN", "MAX_RATING_GAP"
                 "SEED_BOOTSTRAP", "SEED_LLM", "ELO_PERCENTILE", "GAMES_TARGET", "BAD_DEFINITION",
                 "BAD_ONLY_IN_GAMES_WITH_GOOD", "FULLMOVE_MIN", "FULLMOVE_MAX", "MAX_ABS_EVAL_CP",
                 "GOOD_MAX_CP_LOSS", "BAD_MIN_CP_LOSS", "BAD_MIN_WINPROB_DROP", "POSITIONS_PER_GAME",
-                "PILOT_N", "PILOT_EXCLUDED_FROM_FINAL"]
+                "PILOT_N", "PILOT_POSITIONS_PER_KIND", "PILOT_EXCLUDED_FROM_FINAL"]
 
 results = []                                       # (level, message)
 
@@ -139,6 +139,7 @@ def check_config_and_notebook():
     if config.BAD_DEFINITION not in {"cp", "winprob"}: rep("FAIL", f"BAD_DEFINITION must be 'cp' or 'winprob', got {config.BAD_DEFINITION!r}")
     if config.GAMES_TARGET is not None and config.GAMES_TARGET < 1: rep("FAIL", f"GAMES_TARGET must be positive or None, got {config.GAMES_TARGET!r}")
     if config.PILOT_N < 0: rep("FAIL", f"PILOT_N must not be negative, got {config.PILOT_N!r}")
+    if config.PILOT_POSITIONS_PER_KIND < 1: rep("FAIL", f"PILOT_POSITIONS_PER_KIND must be positive, got {config.PILOT_POSITIONS_PER_KIND!r}")
     if config.POSITIONS_PER_GAME != {"good": 1, "bad": 1}: rep("FAIL", "Step 1 requires POSITIONS_PER_GAME = {'good': 1, 'bad': 1}")
     seeds = [getattr(config, n) for n in CONFIG_NAMES if n.startswith("SEED_")]
     rep("OK" if len(set(seeds)) == len(seeds) else "FAIL", "seeds are all different (one per purpose)" if len(set(seeds)) == len(seeds) else f"seeds are reused: {seeds}")
@@ -190,6 +191,18 @@ def check_config_and_notebook():
             rep("OK", "Step 2 is gated by RUN_STOCKFISH and records pilot status without requiring a split")
         else:
             rep("FAIL", "Step 2 notebook code or documentation does not match its configured input/settings")
+        pilot_notebook = json.loads((ROOT / "step1_pilot.ipynb").read_text(encoding="utf-8"))
+        pilot_code_cells = ["".join(c["source"]) for c in pilot_notebook["cells"] if c["cell_type"] == "code"]
+        for index, code in enumerate(pilot_code_cells, 1):
+            compile(code, f"step1_pilot.ipynb:cell-{index}", "exec")
+        pilot_code = "\n".join(pilot_code_cells)
+        if ("config.PILOT_POSITIONS_PER_KIND" in pilot_code
+                and "positions_stockfish.csv" in pilot_code
+                and "pilot_for_llm.csv" in pilot_code and "pilot_key.csv" in pilot_code
+                and "outputs/step1_pilot/<month>/" in readme):
+            rep("OK", "LLM pilot notebook samples the configured Stockfish-checked pool and documents separate input/key outputs")
+        else:
+            rep("FAIL", "LLM pilot notebook, configured sample size, or README output documentation disagree")
     except Exception as e:
         rep("FAIL", f"cannot verify Step 1/2 notebook: {type(e).__name__}: {e}")
     return config

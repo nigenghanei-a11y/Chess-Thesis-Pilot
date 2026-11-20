@@ -1,0 +1,11 @@
+pilot_id,position_id,game_id,kind,stockfish_label,stockfish_cp_loss,stockfish_winprob_drop,engine_best_san,fen,move_san
+P001,B0220,vpDnt1Eo,bad,bad,124,0.1,Rc4,4rrk1/1p3pp1/2p2b1p/p1Pn4/4b3/P3PN1P/1P1B1KP1/1BRR4 w - - 5 25,Bxe4
+P002,G0256,5oSdmYnX,good,good,0,0,Bg6,r2q1rk1/ppp1bppp/8/4P2b/1nBPQ3/P1p1BN2/2P3PP/R4RK1 b - - 0 14,Bg6
+P003,B0142,Z2KPvWvW,bad,bad,467,0.2,Bd7,r5k1/4rpp1/2p2q1p/P2p1b2/1P1N1Q2/5P2/6PP/R2R2K1 b - - 2 25,g5
+P004,B0222,wRDAEa0M,bad,bad,131,0.1,h4,r2B4/p1Pk3p/P5p1/3p4/1bp2P2/3p2P1/1PbN3P/R3K3 w - - 0 29,Rc1
+P005,B0006,1ZACCrle,bad,bad,213,0.2,Rd8,rn3rk1/pp2qp1p/2p2p2/5b2/2NPp2P/8/P1Q2PP1/1R2KB1R b K - 0 16,Nd7
+P006,G0283,B9nyDEIB,good,good,0,0,Rxf4,r1b2rk1/pp4pp/2p5/3Pp3/2P1Pb1q/1PB5/P5BP/R2Q1RK1 w - - 1 18,Rxf4
+P007,B0157,dqdf8IeG,bad,bad,144,0.1,Rd8,Q1b2rk1/p1p1bpp1/5q1p/4p3/2p5/8/PPPP1PPP/R1B1R1K1 b - - 2 14,Bh3
+P008,G0248,475bpTtT,good,good,25,0,Nh3,r1b2rk1/4ppb1/nq1p1np1/1NpP2Bp/P3P2P/5P2/1P1QB1P1/R3K1NR w KQ - 1 14,Rb1
+P009,G0497,yAu09d1F,good,good,0,0,Rxf2,5rk1/p3q3/2p4Q/4P1P1/5B2/2P5/Prb2pP1/3R1R1K w - - 2 28,Rxf2
+P010,G0374,VmzURHEC,good,good,0,0,Rfd8,2r2rk1/1bq2ppp/pp2p3/2n5/1BP1n3/1N2P2P/PQ2BPP1/2RR2K1 b - - 4 19,Rfd8
