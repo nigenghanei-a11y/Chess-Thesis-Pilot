@@ -1,0 +1,22 @@
+{
+  "pilot_game_ids": [
+    "1ZACCrle",
+    "475bpTtT",
+    "5oSdmYnX",
+    "B9nyDEIB",
+    "VmzURHEC",
+    "Z2KPvWvW",
+    "dqdf8IeG",
+    "vpDnt1Eo",
+    "wRDAEa0M",
+    "yAu09d1F"
+  ],
+  "positions_main": 429,
+  "by_kind": {
+    "good": 239,
+    "bad": 190
+  },
+  "games_main": 258,
+  "positions_main_sha256": "e9732310456eb25a8a6e417a886ad4f615d5e2abb69f179212945e1dca080c46",
+  "pilot_manifest_sha256": "fb26fa1590731f107b6bfeb7ff117ad136571020b86511cb25e1e2526c4565d5"
+}
