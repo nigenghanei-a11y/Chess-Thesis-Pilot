@@ -6,7 +6,9 @@ Factual reliability of LLM-generated chess explanations (conditions A, B, C and 
 All scientific decisions (month, selection criteria, seeds, Stockfish and LLM settings, annotation and analysis plan) live in `config.py`.
 Every step imports it and stores a snapshot of it, plus the git commit, in its manifest.
 Step-local knobs (test limits, checkpoint intervals) stay in the notebook or script. Restart the kernel after editing `config.py`.
-Step 0 reads the funnel thresholds (`MAX_RATING_GAP`, `MIN_EST_SECONDS`) from `config.py` too; they are part of the code fingerprint, so changing them invalidates old checkpoints.
+Step 0 reads the funnel thresholds (`MAX_RATING_GAP`, `MIN_EST_SECONDS`) from `config.py` too. Its checkpoint fingerprint includes these settings, `CODE_VERSION`, and the current Git commit.
+The notebook records `git rev-parse HEAD`; it does not detect uncommitted changes or hash the notebook source. For exact source provenance, commit the notebook, config, and scripts before running Step 0.
+Changing the commit changes the fingerprint and can require a new profiling pass.
 
 ## Environment (Windows, PowerShell)
 Python 3.11.9 (also stored in every manifest). From the project folder:
@@ -38,35 +40,25 @@ python check_setup.py                             # pre-flight check, must end w
 
 1. Run `python check_setup.py`, then open the notebook from this folder, choose the `.venv` kernel, run all cells.
 2. The month is pinned in `config.py` (`MONTH`). Everything else is derived from it.
-3. Quick test first: set `MAX_GAMES = 1_000_000` in the first cell (it writes to its own folder `outputs/step0_dataset/<month>_test1000000/`), then set it back to `None`.
+3. Optional quick test: set `MAX_GAMES = 1_000_000` in the first cell. A partial test writes to the same `outputs/step0_dataset/<month>/` folder as the full run; it does not use a separate test folder. Set it back to `None` and run the notebook again before treating the outputs as final.
    The download cell runs first, so even the test needs the full raw file (about 30 GB) unless you point `RAW_OVERRIDE` at a small sample `.pgn` / `.pgn.zst`.
 
-What it does: downloads the pinned monthly file (resumable), records its size and SHA-256, profiles every game in one streaming pass (no sampling), and checks the data quality:
+What it does: downloads or reuses the pinned monthly file (resumable), records its size and SHA-256, profiles the games in one streaming pass, and writes descriptive tables and plots. The overview records basic counts such as games without moves, missing/invalid Elo, missing clock time controls, and unfinished `*` results. The current notebook does not perform duplicate-ID checks, sampled legal-move/eval validation, or produce a data-quality checklist.
 
-| Check | Coverage |
-|---|---|
-| Duplicate game IDs | all games |
-| Missing/invalid Elo, date outside the month, result tag vs move-text result, games without moves | all games |
-| Analysed games with missing evals | all games |
-| Legal moves, result and game length (python-chess replay) | every `LEGALITY_EVERY`-th game (fixed rule, about 4,800 games) |
-| Eval values parseable and plausible, last eval agrees with the result | every `EVAL_EVERY`-th analysed game |
-
-The what-if funnel (plot 8 and `funnel_by_rating_tier.csv`) applies, in this order: rating tier, rating gap, rapid or slower, normal termination, valid result, no bots, has evals.
-It does not apply `MIN_PLIES`; that filter belongs to step 1, so the last funnel number here is larger than the final dataset size.
+The what-if funnel (plot 8 and `funnel_by_rating_tier.csv`) summarizes rating tiers after applying the rating-gap, estimated-time, normal-termination, no-bot, and eval-tag criteria. It does not apply `MIN_PLIES` or validate result tags against move text; those are not Step 0 checks.
 
 Folders:
 - `data/raw/<file>.pgn.zst` - the raw file (not committed; byte size and SHA-256 are in `download_manifest.json`).
-- `outputs/step0_dataset/<month>/` - committed results: `download_manifest.json`, `profile_manifest.json`, `tables/*.csv` (including `data_quality_checklist.csv`), `figures/*.png`.
-- Working files (not committed): `checkpoint.pkl`, `profile_state.pkl`, `game_ids.u64` (about 760 MB for a full month).
+- `outputs/step0_dataset/<month>/` - results: `download_manifest.json`, `profile_manifest.json`, `tables/*.csv`, `tables/overview.json`, and `figures/*.png`.
+- Working files (not committed): `checkpoint.pkl` and `profile_state.pkl`.
 
-Time and space: about 30 GB download, about 1 to 1.5 hours for the profiling pass, about 1 GB of free RAM for the duplicate check. Keep the computer awake; the pass can be stopped and resumed.
+Time and space: about 30 GB to download and roughly 30-90 minutes for a full profiling pass, depending on the computer. Keep the computer awake; the pass can be stopped and resumed.
 
-Reproducibility: same raw file + same notebook -> identical `results_sha256` in `profile_manifest.json`
-(only the tables listed in `hashed_tables` enter the hash; fixed line endings and number formats; the profiling code and the two funnel thresholds are fingerprinted).
-The last cell compares key numbers with the independent earlier run of the same month (only for the whole 2026-10 file with gap 100 and 480 s).
+Reproducibility: `profile_manifest.json` records the raw-file SHA-256, config snapshot, parameters, package versions, Git commit, and `results_sha256`.
+After all plots and tables have been written, the final cell hashes a fixed list of 18 CSV files plus `overview.json`, records that list as `hashed_tables`, and updates `results_sha256` in `profile_manifest.json`. Figures and manifests are excluded. CSV serialization uses pandas defaults, so byte-for-byte equality across different platforms is not guaranteed.
+The preceding cell prints the recorded file hash, result hash, game count, and figure names. The final cell prints the hash over the complete fixed table set; neither cell compares against an independent earlier run.
 
-Step 0 is done when: the data-quality checklist has no `REVIEW` row, the SHA-256 line says `MATCH` (or "not available"), the cross-check table says `MATCH` on all eight rows,
-and `outputs/step0_dataset/<month>/` is committed (without the working files).
+Step 0 is done when the full run has `partial: false`, the raw-file checksum matches the official checksum when available, the generated tables and figures are present, and the intended outputs are committed (without the working files).
 
 ## Planned steps
 1. Selection: game filters, good moves (<= 30 cp loss), count of bad moves (>= 100 cp, and a win-probability version); pilot positions kept out of the final set

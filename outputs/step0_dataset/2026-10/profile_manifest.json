@@ -71,5 +71,26 @@
     "ALPHA": "0.05",
     "ANALYSIS_PLAN_FROZEN": "None"
   },
-  "git_commit": "fb96ede3a4f36b466a21590ffcfc8ce5c773af4d"
+  "git_commit": "fb96ede3a4f36b466a21590ffcfc8ce5c773af4d",
+  "hashed_tables": [
+    "bots_by_speed.csv",
+    "clock_by_speed.csv",
+    "cohort_counts.csv",
+    "eco_top30.csv",
+    "elo_exact.csv",
+    "eval_by_min_elo_band.csv",
+    "eval_by_speed.csv",
+    "full_moves.csv",
+    "full_moves_by_speed.csv",
+    "funnel_by_rating_tier.csv",
+    "games_per_day.csv",
+    "rating_gap_exact.csv",
+    "results.csv",
+    "speed.csv",
+    "tag_fill_rates.csv",
+    "terminations.csv",
+    "time_controls_top40.csv",
+    "titles.csv",
+    "overview.json"
+  ]
 }
