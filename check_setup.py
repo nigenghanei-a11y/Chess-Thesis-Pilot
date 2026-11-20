@@ -141,8 +141,17 @@ def check_config_and_notebook():
         rep("OK", "notebook takes the rating-gap and minimum-time thresholds from config.py (no hard-coded copies)")
     else: rep("FAIL", "notebook still hard-codes the rating-gap / minimum-time threshold instead of reading it from config.py")
     m = re.search(r"THRESH\s*=\s*\[([^\]]*)\]", code)
+    tiers_ok = bool(m and ("config.ELO_MIN" in m.group(1) or config.ELO_MIN in [int(x) for x in re.findall(r"\d+", m.group(1))]))
     tiers = [int(x) for x in re.findall(r"\d+", m.group(1))] if m else []
-    rep("OK" if config.ELO_MIN in tiers else "FAIL", f"ELO_MIN {config.ELO_MIN} is one of the notebook's rating tiers {tiers}" if config.ELO_MIN in tiers else f"ELO_MIN {config.ELO_MIN} is not in the notebook's THRESH {tiers}")
+    rep("OK" if tiers_ok else "FAIL", f"ELO_MIN {config.ELO_MIN} is one of the notebook's rating tiers" if tiers_ok else f"ELO_MIN {config.ELO_MIN} is not in the notebook's THRESH {tiers}")
+    for manifest_name in ("download_manifest.json", "profile_manifest.json"):
+        manifest_path = ROOT / "outputs" / "step0_dataset" / config.MONTH / manifest_name
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            missing = [key for key in ("config", "git_commit") if key not in manifest]
+            rep("FAIL" if missing else "OK", f"{manifest_name} has config and git provenance" if not missing else f"{manifest_name} lacks provenance fields: {', '.join(missing)}")
+        except Exception as e:
+            rep("FAIL", f"cannot verify provenance in {manifest_name}: {type(e).__name__}: {e}")
     return config
 
 
