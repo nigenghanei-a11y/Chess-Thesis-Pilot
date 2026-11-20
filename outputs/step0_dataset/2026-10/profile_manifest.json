@@ -1,0 +1,23 @@
+{
+  "step": "step0_profile",
+  "month": "2026-10",
+  "file_sha256": "043906ebfade1bfeb7c00087590fac505370936c028525e4722e2dbd4986ae86",
+  "games": 95395628,
+  "partial": false,
+  "code_version": "step0-v1",
+  "results_sha256": "b023cc1328c1ad818ea4230781f1d1b75bf376319a15bb3da4520fe19b8f5598",
+  "timestamp_utc": "2026-11-20T04:32:29+00:00",
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "requests": "2.34.2",
+    "zstandard": "0.25.0",
+    "numpy": "2.4.3",
+    "pandas": "3.0.1",
+    "matplotlib": "3.11.2"
+  },
+  "parameters": {
+    "MAX_GAMES": null,
+    "TAG_SAMPLE_GAMES": 2000000
+  }
+}

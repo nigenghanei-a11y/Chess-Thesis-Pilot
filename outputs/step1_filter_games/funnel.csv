@@ -1,9 +1,0 @@
-step,games_remaining,dropped_here
-all games in file,95395628,0
-both players >= 2600,534440,94861188
-rating gap <= 100,371153,163287
-rapid or slower,11159,359994
-normal termination,10245,914
-no bot accounts,175,10070
->= 60 plies,139,36
-has Lichess evaluations,122,17

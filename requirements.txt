@@ -1,9 +1,12 @@
+# Direct dependencies, pinned to the exact versions of the working .venv (see requirements-lock.txt for the full freeze).
+# Python 3.11.9 (also recorded in every run manifest).
 chess==1.11.2
 zstandard==0.25.0
-requests
-pandas
-scipy
-statsmodels
-ollama
-jupyter
-matplotlib
+requests==2.34.2
+numpy==2.4.3
+pandas==3.0.1
+matplotlib==3.11.2
+ipykernel==7.3.0
+scipy==1.17.1
+statsmodels==0.14.6
+# step 3 only (LLM generation): `pip install ollama`, then pin the version it installs, e.g. ollama==X.Y.Z

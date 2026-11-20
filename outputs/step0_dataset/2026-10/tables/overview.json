@@ -1,0 +1,11 @@
+{
+  "month": "2026-10",
+  "games": 95395628,
+  "partial": false,
+  "tag_sample_games": 2000000,
+  "data_quality": {
+    "no_moves": 407406,
+    "no_clock_time_control": 99689,
+    "unfinished_result_star": 476436
+  }
+}
