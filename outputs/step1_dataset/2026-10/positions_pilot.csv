@@ -1,0 +1,1 @@
+position_id,game_id,kind,ply,fullmove,side,fen,move_san,move_uci,eval_before_cp,eval_after_cp,cp_loss,winprob_drop,white,black,white_elo,black_elo,time_control,result,eco,date,is_pilot

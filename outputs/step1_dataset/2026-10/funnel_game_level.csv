@@ -1,0 +1,12 @@
+step,games,share_of_previous
+all games,95395628,
+both players >= 2556 (P99.0),704444,0.00738444743
+rating gap <= 100,497608,0.7063840419
+rapid or slower (est. >= 480s),11670,0.0234521953
+normal termination,10706,0.91739503
+no bot account,411,0.03838968803
+at least 60 plies,317,0.7712895377
+Lichess evals present,271,0.8548895899
+"has a good-move position (<= 30 cp loss, not decided, board checks)",270,0.9963099631
+... of which pilot (excluded from final),0,
+final games (good positions),270,

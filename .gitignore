@@ -16,6 +16,9 @@ outputs/**/checkpoint.pkl
 outputs/**/profile_state.pkl
 # game_ids.u64: 8 bytes per game = about 760 MB for 95 million games; GitHub rejects files > 100 MB
 outputs/**/game_ids.u64
+# Step 1 / Step 2 working files (regenerable from the raw PGN / positions table)
+outputs/step1_dataset/**/candidate_games.pgn
+outputs/stockfish_recheck/**/resume_state.json*
 
 # engine binary: do not commit; its SHA-256 is stored in the run manifest
 stockfish/

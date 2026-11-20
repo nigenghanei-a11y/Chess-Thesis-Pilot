@@ -41,6 +41,7 @@ PILOT_EXCLUDED_FROM_FINAL = True
 STOCKFISH_VERSION = "19"      # as stated in the proposal emails; the binary's SHA-256 is recorded in the step-2 manifest
 STOCKFISH_DEPTH, STOCKFISH_THREADS, STOCKFISH_HASH_MB, STOCKFISH_MULTIPV = 18, 1, 128, 1
 PV_MAX_PLIES = 8
+STOCKFISH_PATH = "stockfish/stockfish-windows-x86-64-universal.exe"   # relative to the project folder (Windows); falls back to `stockfish` on PATH. Binary is not committed
 
 # ---- Generating LLM (fix after the pilot) ----
 LLM_BACKEND, LLM_MODEL = "ollama", None      # e.g. "llama3.1:8b"; None until chosen
@@ -55,6 +56,14 @@ PRIMARY_METRIC = "claim-level error rate = incorrect / (correct + incorrect)"
 COMPARISONS = [("A", "B"), ("A", "C"), ("B", "C"), ("A", "D")]
 MULTIPLE_TESTING, ALPHA = "holm", 0.05
 ANALYSIS_PLAN_FROZEN = None  # set to the git tag / date when frozen, e.g. "analysis-plan-v1"
+
+
+# ---- Step 1: selection (added) ----
+# ELO_MIN above is only used by the step-0 what-if funnel. Step 1 uses the percentile below instead.
+ELO_PERCENTILE = 99.0        # BOTH players must be >= this percentile of the month's player ratings (from step 0's elo_exact.csv, weighted by games played)
+GAMES_TARGET = None          # None = every game that passes all criteria; an integer = random sample of that many games (SEED_SELECTION)
+BAD_DEFINITION = "cp"        # which definition picks the secondary "bad" position: "cp" (loss >= BAD_MIN_CP_LOSS) or "winprob" (drop >= BAD_MIN_WINPROB_DROP)
+BAD_ONLY_IN_GAMES_WITH_GOOD = True   # bad positions are only taken from games that also have a good position (one good + one bad per game)
 
 
 def config_snapshot():

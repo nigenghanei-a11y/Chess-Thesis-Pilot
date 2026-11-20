@@ -14,14 +14,20 @@ ROOT = Path(__file__).resolve().parent
 EXPECTED_PYTHON = (3, 11, 9)                      # README: Python 3.11.9
 MIN_FREE_GB = 40                                  # ~31 GB raw file + ~1 GB working files + margin
 FILES = ["config.py", "README.md", "requirements.txt", "requirements-lock.txt",
-         "step0_download_and_profile.ipynb", "check_setup.py", ".gitignore"]
+         "step0_download_and_profile.ipynb", "step1_select_positions.ipynb",
+         "check_setup.py", ".gitignore"]
 REQUIRED_GITIGNORE = [".venv/", "data/raw/", "outputs/**/checkpoint.pkl", "outputs/**/profile_state.pkl",
-                      "outputs/**/game_ids.u64", "stockfish/"]
+                      "outputs/**/game_ids.u64", "outputs/step1_dataset/**/candidate_games.pgn",
+                      "outputs/stockfish_recheck/**/resume_state.json*", "stockfish/"]
 IGNORED_EXTRAS = {"pip", "setuptools", "wheel", "distribute"}      # never listed by `pip freeze`
 IMPORTS = ["numpy", "pandas", "matplotlib", "requests", "zstandard", "chess", "chess.pgn", "scipy", "statsmodels", "ipykernel"]
 CONFIG_NAMES = ["MONTH", "BASE_URL", "LICHESS_FILE", "ELO_MIN", "MAX_RATING_GAP", "MIN_EST_SECONDS", "MIN_PLIES",
                 "STOCKFISH_VERSION", "STOCKFISH_DEPTH", "STOCKFISH_THREADS", "STOCKFISH_HASH_MB", "STOCKFISH_MULTIPV",
-                "SEED_SELECTION", "SEED_PILOT_SPLIT", "SEED_ANNOTATION", "SEED_BOOTSTRAP", "SEED_LLM"]
+                "STOCKFISH_PATH", "PV_MAX_PLIES", "SEED_SELECTION", "SEED_PILOT_SPLIT", "SEED_ANNOTATION",
+                "SEED_BOOTSTRAP", "SEED_LLM", "ELO_PERCENTILE", "GAMES_TARGET", "BAD_DEFINITION",
+                "BAD_ONLY_IN_GAMES_WITH_GOOD", "FULLMOVE_MIN", "FULLMOVE_MAX", "MAX_ABS_EVAL_CP",
+                "GOOD_MAX_CP_LOSS", "BAD_MIN_CP_LOSS", "BAD_MIN_WINPROB_DROP", "POSITIONS_PER_GAME",
+                "PILOT_N", "PILOT_EXCLUDED_FROM_FINAL"]
 
 results = []                                       # (level, message)
 
@@ -129,6 +135,11 @@ def check_config_and_notebook():
     if not re.fullmatch(r"\d{4}-\d{2}", config.MONTH): rep("FAIL", f"MONTH should look like 2026-10, got {config.MONTH!r}")
     if config.LICHESS_FILE != f"lichess_db_standard_rated_{config.MONTH}.pgn.zst": rep("FAIL", f"LICHESS_FILE {config.LICHESS_FILE!r} does not follow MONTH")
     if not config.BASE_URL.endswith("/"): rep("FAIL", "BASE_URL must end with '/'")
+    if not 0 < config.ELO_PERCENTILE <= 100: rep("FAIL", f"ELO_PERCENTILE must be in (0, 100], got {config.ELO_PERCENTILE!r}")
+    if config.BAD_DEFINITION not in {"cp", "winprob"}: rep("FAIL", f"BAD_DEFINITION must be 'cp' or 'winprob', got {config.BAD_DEFINITION!r}")
+    if config.GAMES_TARGET is not None and config.GAMES_TARGET < 1: rep("FAIL", f"GAMES_TARGET must be positive or None, got {config.GAMES_TARGET!r}")
+    if config.PILOT_N < 0: rep("FAIL", f"PILOT_N must not be negative, got {config.PILOT_N!r}")
+    if config.POSITIONS_PER_GAME != {"good": 1, "bad": 1}: rep("FAIL", "Step 1 requires POSITIONS_PER_GAME = {'good': 1, 'bad': 1}")
     seeds = [getattr(config, n) for n in CONFIG_NAMES if n.startswith("SEED_")]
     rep("OK" if len(set(seeds)) == len(seeds) else "FAIL", "seeds are all different (one per purpose)" if len(set(seeds)) == len(seeds) else f"seeds are reused: {seeds}")
     try: json.dumps(config.config_snapshot()); rep("OK", "config_snapshot() can be written to a manifest")
@@ -152,6 +163,35 @@ def check_config_and_notebook():
             rep("FAIL" if missing else "OK", f"{manifest_name} has config and git provenance" if not missing else f"{manifest_name} lacks provenance fields: {', '.join(missing)}")
         except Exception as e:
             rep("FAIL", f"cannot verify provenance in {manifest_name}: {type(e).__name__}: {e}")
+    try:
+        step1_notebook = json.loads((ROOT / "step1_select_positions.ipynb").read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        step1_code_cells = ["".join(c["source"]) for c in step1_notebook["cells"]
+                            if c["cell_type"] == "code" and "step1" in c.get("metadata", {}).get("tags", [])]
+        step2_code_cells = ["".join(c["source"]) for c in step1_notebook["cells"]
+                            if c["cell_type"] == "code" and "step2" in c.get("metadata", {}).get("tags", [])]
+        if not step1_code_cells or not step2_code_cells:
+            rep("FAIL", "Step 1 notebook must include executable Step 1 and Step 2 cells")
+        else:
+            for index, code in enumerate(step1_code_cells + step2_code_cells, 1):
+                compile(code, f"step1_select_positions.ipynb:cell-{index}", "exec")
+            rep("OK", "Step 1 notebook includes syntactically valid Step 1 and Step 2 code cells")
+        step1_code = "\n".join(step1_code_cells)
+        step2_code = "\n".join(step2_code_cells)
+        if "config.ELO_PERCENTILE" in step1_code and "outputs/step1_dataset/<month>/" in readme and "step1_dataset" in step1_code:
+            rep("OK", "Step 1 uses the configured rating percentile and the README documents its output folder")
+        else:
+            rep("FAIL", "Step 1 percentile settings or output-folder documentation disagree")
+        if ("positions_final.csv" in step2_code and "STOCKFISH_DEPTH" in step2_code
+                and "RUN_STOCKFISH =" in step2_code and "if RUN_STOCKFISH:" in step2_code
+                and "pilot_split_complete" in step2_code
+                and "Complete the pilot split and regenerate Step 1 outputs" not in step2_code
+                and "MAKE_PILOT_SPLIT = False" in step1_code and "Step 2 - Stockfish re-check" in readme):
+            rep("OK", "Step 2 is gated by RUN_STOCKFISH and records pilot status without requiring a split")
+        else:
+            rep("FAIL", "Step 2 notebook code or documentation does not match its configured input/settings")
+    except Exception as e:
+        rep("FAIL", f"cannot verify Step 1/2 notebook: {type(e).__name__}: {e}")
     return config
 
 

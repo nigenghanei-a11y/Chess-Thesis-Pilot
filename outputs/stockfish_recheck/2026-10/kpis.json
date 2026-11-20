@@ -1,0 +1,14 @@
+{
+  "input_positions": 506,
+  "analysed_positions": 506,
+  "kept_positions": 446,
+  "rejected_positions": 60,
+  "kept_by_kind": {
+    "bad": 198,
+    "good": 248
+  },
+  "rejected_by_reason": {
+    "label_not_confirmed_by_stockfish": 53,
+    "already_decided": 12
+  }
+}

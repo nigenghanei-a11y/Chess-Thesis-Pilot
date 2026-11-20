@@ -60,9 +60,28 @@ The preceding cell prints the recorded file hash, result hash, game count, and f
 
 Step 0 is done when the full run has `partial: false`, the raw-file checksum matches the official checksum when available, the generated tables and figures are present, and the intended outputs are committed (without the working files).
 
+## Step 1 - game filters and full position selection
+Save `step1_select_positions.ipynb` (Ctrl+S), then use **Run All** from the project folder with the `.venv` kernel to run Step 1. The notebook also contains the separate, manual Step 2 Stockfish re-check. Keep `RUN_STOCKFISH = False` while using **Run All**; after Step 1 is complete, enable it and execute only the final cell. Save before execution so the source hash in the manifest matches the saved code. Needs the finished step 0 outputs.
+
+- Rating criterion: both players at or above `ELO_PERCENTILE` of the month's player-game rating records, weighted by games played and read from step 0's `elo_exact.csv`. For the current 2026-10 Step 0 table, P99 resolves to **2556**; the resolved threshold is printed and stored in the manifest. `ELO_MIN` only affects step 0's what-if funnel. This is not a percentile of unique player accounts.
+- Pass 1 verifies the raw file's SHA-256 against step 0's manifest, then streams it, applies the game-level criteria with "normal termination" and "no bots" as separate steps, checks duplicate game IDs (all games by default; survivors only if `DUP_CHECK_ALL = False`), and caches survivors in `candidate_games.pgn`. Later runs reuse the cache only when its input/settings/source fingerprint matches. The checksum verification adds a full read of the compressed raw file.
+- Pass 2 replays those games, selects good moves (<= `GOOD_MAX_CP_LOSS`, pre-move position within +-`MAX_ABS_EVAL_CP`, no mate score, not in check, >= 2 legal moves, and position unused) from the Lichess evaluations, and picks one per game with a per-game seeded shuffle (`SEED_SELECTION`). It counts and selects bad moves under both definitions (`bad_move_counts.csv`), optionally samples `GAMES_TARGET` games, and by default keeps the full selected data without reserving pilot games. Stockfish re-check is a separate, optional Step 2.
+- Outputs in `outputs/step1_dataset/<month>/`: `pass1_manifest.json`, `funnel_game_level.csv`, `bad_move_counts.csv`, `positions_all.csv`, `positions_pilot.csv`, `positions_final.csv`, `game_summary.csv`, `kpis_final_positions.csv`, `side_to_move.csv`, and `selection_manifest.json` (raw SHA-256, thresholds, notebook code hash, run parameters, config snapshot, Git commit, uncommitted-changes flag, `results_sha256`). Initially `positions_final.csv` contains the full selected set and `positions_pilot.csv` is empty. Later, set `MAKE_PILOT_SPLIT = True` in the Pass 2 cell and rerun the Step 1 cells to sample `PILOT_N` whole games with `SEED_PILOT_SPLIT`; the pilot rows are then excluded from `positions_final.csv`. `candidate_games.pgn` is a regenerable working file and is ignored by Git. Test runs (`MAX_GAMES` or `RAW_OVERRIDE`) use the `_TEST` sibling folder.
+- The default all-game duplicate-ID check stores 8 bytes per game and sorts the IDs; allow roughly 1.5 GB of peak RAM for the ID array and sort copy.
+
+## Step 2 - Stockfish re-check
+Step 2 is the Stockfish run in the final section of `step1_select_positions.ipynb`; it reads `outputs/step1_dataset/<month>/positions_final.csv` and accepts the full selected pool before pilot sampling. Keep `RUN_STOCKFISH = False` for **Run All**. When ready, set it to `True`, save the notebook, and execute only the final cell—do not use **Run All** with the flag enabled. The source fingerprint is read from the saved notebook. For a separate session, run the Step 2 setup and function cells first, then the final cell. This produces the Stockfish-checked pool; pilot sampling is still pending and must be applied to the kept positions before main thesis generation.
+
+On Windows, the final cell selects the Proactor event-loop policy so Jupyter can launch Stockfish as a subprocess.
+
+- Uses the Stockfish binary configured by `STOCKFISH_PATH` (or `stockfish` on `PATH`) with the configured version, depth, threads, hash, and MultiPV.
+- Rechecks the position before and after the played move, confirms the good/bad label using the configured thresholds, and records the best move, evaluations, principal variations, and rejection reasons.
+- Outputs go to `outputs/stockfish_recheck/<month>/`: `analysed_all.jsonl`, `positions_stockfish.csv`, `positions_rejected.csv`, `kpis.json`, and `stockfish_manifest.json`. The analysis is resumable; `resume_state.json` is a working file and is ignored by Git.
+- The manifest records hashes for the input, engine, Step 2 notebook code, and outputs, plus config and Git state. Commit notebook/config changes before running for a clean Git provenance record.
+
+The notebooks under `chess-explanations-thesis_OLD/` document the earlier three-notebook workflow. The current Step 1 combines the old game-filter and move-selection stages; the old Stockfish notebook is not used by this pipeline.
+
 ## Planned steps
-1. Selection: game filters, good moves (<= 30 cp loss), count of bad moves (>= 100 cp, and a win-probability version); pilot positions kept out of the final set
-2. Stockfish re-check (version in `config.py`, depth 18, one thread, 128 MB hash, MultiPV 1)
 3. Explanation generation A/B/C with the chosen model (CPU-only for the final runs, repeated runs)
 4. Claim extraction, verification, blind second annotation (about 20% of claims, Cohen's kappa), repair condition D
 5. Analysis (plan frozen and git-tagged before the main generation)

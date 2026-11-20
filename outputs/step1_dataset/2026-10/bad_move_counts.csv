@@ -1,0 +1,3 @@
+definition,games_with_good_position_and_such_a_move,games_in_all_candidates,bad_moves_total,advisor_threshold_40_reached
+loss >= 100 cp,236,236,890,True
+win-prob drop >= 0.10,222,222,655,True

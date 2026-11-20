@@ -1,0 +1,18 @@
+{
+  "fingerprint": "29d7ab6a3badd13886ccb519306e86c7004363296ccbf924740546b2c4c558a7",
+  "raw_sha256": "043906ebfade1bfeb7c00087590fac505370936c028525e4722e2dbd4986ae86",
+  "funnel": {
+    "all games": 95395628,
+    "both players >= 2556 (P99.0)": 704444,
+    "rating gap <= 100": 497608,
+    "rapid or slower (est. >= 480s)": 11670,
+    "normal termination": 10706,
+    "no bot account": 411,
+    "at least 60 plies": 317,
+    "Lichess evals present": 271
+  },
+  "duplicate_ids_in_whole_file": 0,
+  "duplicate_ids_in_survivors": null,
+  "ids_checked": 95395628,
+  "seconds": 760
+}
