@@ -1,0 +1,13 @@
+model,condition,correct,incorrect,unknown
+deepseek-r1:8b,A,6,9,45
+deepseek-r1:8b,B,16,15,90
+deepseek-r1:8b,C,10,11,84
+llama3.1:8b,A,15,13,56
+llama3.1:8b,B,14,11,70
+llama3.1:8b,C,10,3,76
+phi4-mini:latest,A,7,14,66
+phi4-mini:latest,B,12,9,69
+phi4-mini:latest,C,13,10,75
+qwen2.5:7b,A,9,9,47
+qwen2.5:7b,B,19,10,44
+qwen2.5:7b,C,17,11,66

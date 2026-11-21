@@ -1,0 +1,13 @@
+model,condition,explanations,mean,sd,min,max
+deepseek-r1:8b,A,9,6.67,1.5,5,9
+deepseek-r1:8b,B,10,12.1,7,6,27
+deepseek-r1:8b,C,10,10.5,2.8,7,17
+llama3.1:8b,A,10,8.4,1.17,7,10
+llama3.1:8b,B,10,9.5,0.71,9,11
+llama3.1:8b,C,10,8.9,1.66,7,12
+phi4-mini:latest,A,10,8.7,1.42,7,11
+phi4-mini:latest,B,10,9,1.56,6,11
+phi4-mini:latest,C,10,9.8,1.81,7,13
+qwen2.5:7b,A,10,6.5,2.07,4,10
+qwen2.5:7b,B,10,7.3,1.57,5,9
+qwen2.5:7b,C,10,9.4,1.71,7,13

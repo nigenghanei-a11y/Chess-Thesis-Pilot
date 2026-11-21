@@ -1,0 +1,2 @@
+model,condition,pilot_id,repeat,done_reason,words,truncated,think_unterminated
+deepseek-r1:8b,A,P008,1,length,0,True,False

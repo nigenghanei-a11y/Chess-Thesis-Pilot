@@ -1,0 +1,13 @@
+model,condition,n,usable,truncated,unterminated_think,mean_words,mean_seconds
+deepseek-r1:8b,A,10,9,1,0,84.4,139
+deepseek-r1:8b,B,10,10,0,0,167.8,107.4
+deepseek-r1:8b,C,10,10,0,0,139.4,103
+llama3.1:8b,A,10,10,0,0,76.7,19
+llama3.1:8b,B,10,10,0,0,87.6,19.2
+llama3.1:8b,C,10,10,0,0,88,20
+phi4-mini:latest,A,10,10,0,0,85.4,11.3
+phi4-mini:latest,B,10,10,0,0,94.6,10.5
+phi4-mini:latest,C,10,10,0,0,96.3,10.8
+qwen2.5:7b,A,10,10,0,0,75.6,17.5
+qwen2.5:7b,B,10,10,0,0,91.5,20.5
+qwen2.5:7b,C,10,10,0,0,102.6,22.6
