@@ -15,6 +15,7 @@ EXPECTED_PYTHON = (3, 11, 9)                      # README: Python 3.11.9
 MIN_FREE_GB = 40                                  # ~31 GB raw file + ~1 GB working files + margin
 FILES = ["config.py", "README.md", "requirements.txt", "requirements-lock.txt",
          "step0_download_and_profile.ipynb", "step1_select_positions.ipynb", "step1_pilot.ipynb",
+         "step3_llm_pilot.ipynb", "check_main_dataset.py",
          "check_setup.py", ".gitignore"]
 REQUIRED_GITIGNORE = [".venv/", "data/raw/", "outputs/**/checkpoint.pkl", "outputs/**/profile_state.pkl",
                       "outputs/**/game_ids.u64", "outputs/step1_dataset/**/candidate_games.pgn",
@@ -27,7 +28,12 @@ CONFIG_NAMES = ["MONTH", "BASE_URL", "LICHESS_FILE", "ELO_MIN", "MAX_RATING_GAP"
                 "SEED_BOOTSTRAP", "SEED_LLM", "ELO_PERCENTILE", "GAMES_TARGET", "BAD_DEFINITION",
                 "BAD_ONLY_IN_GAMES_WITH_GOOD", "FULLMOVE_MIN", "FULLMOVE_MAX", "MAX_ABS_EVAL_CP",
                 "GOOD_MAX_CP_LOSS", "BAD_MIN_CP_LOSS", "BAD_MIN_WINPROB_DROP", "POSITIONS_PER_GAME",
-                "PILOT_N", "PILOT_POSITIONS_PER_KIND", "PILOT_EXCLUDED_FROM_FINAL"]
+                "PILOT_N", "PILOT_POSITIONS_PER_KIND", "PILOT_EXCLUDED_FROM_FINAL",
+                "LLM_BACKEND", "LLM_MODEL", "LLM_TEMPERATURE", "LLM_NUM_CTX", "LLM_MAX_TOKENS",
+                "LLM_DEVICE", "LLM_REPEATS", "LLM_PILOT_MODELS", "LLM_PILOT_CONDITIONS",
+                "LLM_PILOT_REPEATS_PER_CONDITION", "LLM_PILOT_PV_COLUMN", "LLM_PILOT_MODEL_ID_PREFIXES",
+                "LLM_PILOT_OLLAMA_URL", "LLM_PILOT_REASONING_MODELS",
+                "LLM_PILOT_REASONING_NUM_CTX", "LLM_PILOT_REASONING_MAX_TOKENS"]
 
 results = []                                       # (level, message)
 
@@ -140,6 +146,13 @@ def check_config_and_notebook():
     if config.GAMES_TARGET is not None and config.GAMES_TARGET < 1: rep("FAIL", f"GAMES_TARGET must be positive or None, got {config.GAMES_TARGET!r}")
     if config.PILOT_N < 0: rep("FAIL", f"PILOT_N must not be negative, got {config.PILOT_N!r}")
     if config.PILOT_POSITIONS_PER_KIND < 1: rep("FAIL", f"PILOT_POSITIONS_PER_KIND must be positive, got {config.PILOT_POSITIONS_PER_KIND!r}")
+    if len(config.LLM_PILOT_MODELS) != len(set(config.LLM_PILOT_MODELS)):
+        rep("FAIL", "LLM_PILOT_MODELS must not contain duplicate model tags")
+    if set(config.LLM_PILOT_MODELS) != set(config.LLM_PILOT_MODEL_ID_PREFIXES):
+        rep("FAIL", "LLM pilot model tags and pinned Ollama ID prefixes disagree")
+    else:
+        rep("OK", f"{len(config.LLM_PILOT_MODELS)} Ollama pilot models have pinned ID prefixes")
+    if config.LLM_BACKEND != "ollama": rep("FAIL", f"LLM_BACKEND must be 'ollama' for the pilot notebook, got {config.LLM_BACKEND!r}")
     if config.POSITIONS_PER_GAME != {"good": 1, "bad": 1}: rep("FAIL", "Step 1 requires POSITIONS_PER_GAME = {'good': 1, 'bad': 1}")
     seeds = [getattr(config, n) for n in CONFIG_NAMES if n.startswith("SEED_")]
     rep("OK" if len(set(seeds)) == len(seeds) else "FAIL", "seeds are all different (one per purpose)" if len(set(seeds)) == len(seeds) else f"seeds are reused: {seeds}")
@@ -203,6 +216,32 @@ def check_config_and_notebook():
             rep("OK", "LLM pilot notebook samples the configured Stockfish-checked pool and documents separate input/key outputs")
         else:
             rep("FAIL", "LLM pilot notebook, configured sample size, or README output documentation disagree")
+        step3_notebook = json.loads((ROOT / "step3_llm_pilot.ipynb").read_text(encoding="utf-8"))
+        step3_code_cells = ["".join(c["source"]) for c in step3_notebook["cells"] if c["cell_type"] == "code"]
+        step3_run_control = next((c for c in step3_notebook["cells"] if c.get("id") == "step3-run-control"), None)
+        step3_repro_check = next((c for c in step3_notebook["cells"] if c.get("id") == "step3-repro-check"), None)
+        for index, code in enumerate(step3_code_cells, 1):
+            compile(code, f"step3_llm_pilot.ipynb:cell-{index}", "exec")
+        step3_code = "\n".join(step3_code_cells)
+        step3_repro_code = "".join(step3_repro_check.get("source", [])) if step3_repro_check else ""
+        if ("config.LLM_PILOT_MODELS" in step3_code
+                and "config.LLM_PILOT_CONDITIONS" in step3_code
+                and "config.LLM_PILOT_PV_COLUMN" in step3_code
+                and "engine_best_pv_san" in step3_code
+                and "condition_comparison.csv" in step3_code
+                and step3_run_control is not None
+                and "".join(step3_run_control.get("source", [])).strip() == "RUN_PILOT = False"
+                and step3_notebook["cells"][-1].get("id") == "step3-repro-check"
+                and "RUN_REPRO_CHECK = False" in step3_repro_code
+                and "REPRO_CHECK_N_POSITIONS" in step3_repro_code
+                and "BACKEND.chat" in step3_repro_code
+                and "step3-source" not in step3_repro_check.get("metadata", {}).get("tags", [])
+                and "class OllamaBackend" in step3_code
+                and "notebook_source_sha256" in step3_code
+                and "step3_llm_pilot.ipynb" in readme):
+            rep("OK", "Step 3 notebook runs isolated A/B/C conditions, uses pinned models, and records provenance")
+        else:
+            rep("FAIL", "Step 3 notebook A/B/C design, model configuration, or provenance documentation disagree")
     except Exception as e:
         rep("FAIL", f"cannot verify Step 1/2 notebook: {type(e).__name__}: {e}")
     return config

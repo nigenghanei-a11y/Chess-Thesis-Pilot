@@ -86,7 +86,7 @@ The notebooks under `chess-explanations-thesis_OLD/` document the earlier three-
 ## Step 1 pilot - prepare a shared LLM pilot set
 After Step 2 completes, run `step1_pilot.ipynb`. It samples `PILOT_POSITIONS_PER_KIND` good and the same number of bad positions from `outputs/stockfish_recheck/<month>/positions_stockfish.csv`; the default is 5 of each. This is a small, fast sampling step and does not rerun raw-data selection or Stockfish analysis.
 
-The notebook writes `outputs/step1_pilot/<month>/pilot_for_llm.csv` with only the position, side to move, and played move, plus `pilot_key.csv` with the hidden labels and Stockfish reference data. Give every LLM the same `pilot_for_llm.csv`; keep the key out of model prompts. Treat this input as fixed across models and save each model's generations separately (`step3_llm_pilot.py` writes them under `outputs/step3_llm_pilot/<month>/<model>/`) so comparisons use identical positions. The notebook verifies the source manifests and hashes and refuses to replace an existing different pilot sample.
+The notebook writes `outputs/step1_pilot/<month>/pilot_for_llm.csv` with only the position, side to move, and played move, plus `pilot_key.csv` with the hidden labels and Stockfish reference data. Give every LLM the same `pilot_for_llm.csv`; keep the key out of model prompts. Treat this input as fixed across models and save each model's generations separately under `outputs/step3_llm_pilot/<month>/<model>/` so comparisons use identical positions. The notebook verifies the source manifests and hashes and refuses to replace an existing different pilot sample.
 
 ## Main dataset - pilot games removed
 The last cell of `step1_pilot.ipynb` writes `outputs/step1_pilot/<month>/positions_main.csv`: every Stockfish-checked position except those from games that appear in `pilot_key.csv`. The exclusion is by game, so a pilot game contributes nothing to the main set (not even its other good/bad position). `main_manifest.json` stores the pilot game IDs, the counts and the SHA-256 of `positions_main.csv` and `pilot_manifest.json`.
@@ -103,21 +103,33 @@ Current counts: 429 positions (239 good, 190 bad) from 258 games; 171 games have
 - **Selection effects.** Only games with Lichess computer evaluations are used, and the P99 threshold is computed over game-player rating records, not unique accounts.
 - Manifests of Steps 1-2 and the pilot record `git_uncommitted_changes: true` because they were produced before the final commit; the file hashes and the git tags (`pilot-v1`, `main-checked-v1`) document the final state.
 
-## Step 3 pilot - Condition A with four local models
-`step3_llm_pilot.py` generates Condition A explanations (no engine information) for the 10 pilot positions with local Ollama models (default tags: `qwen2.5:7b`, `llama3.1:8b`, `deepseek-r1:8b`, `phi4-mini`; check with `ollama list`). Ollama is installed separately and is not in `requirements.txt`. Run inside the `.venv`:
+## Step 3 pilot - A/B/C with four local models
+Use `step3_llm_pilot.ipynb` from the project folder with the `.venv` kernel. It generates separate A, B, and C explanations for each of the 10 fixed pilot positions. Ollama runs locally at `LLM_PILOT_OLLAMA_URL`; the position data and prompts are not sent to a hosted model service. Ollama is installed separately and is not in `requirements.txt`.
 
-```powershell
-python step3_llm_pilot.py --models llama3.1:8b --limit 2 --repeats 1   # smoke test
-python step3_llm_pilot.py --repeats 2                                    # all four models, 10 positions
-python step3_llm_pilot.py --mock --repeats 2                             # test the script without Ollama
-```
+The current local inventory supplied by `ollama list` is:
 
-- Settings per request: temperature `LLM_TEMPERATURE`, seed `SEED_LLM`, CPU only (`num_gpu: 0`), fixed thread count, `LLM_NUM_CTX` and `LLM_MAX_TOKENS`; `deepseek-r1` gets a larger budget (3000 tokens, context 4096) and its `<think>` text is stored separately. Repeats use identical settings to measure run-to-run variation.
-- The prompt is neutral (it does not say the move is good), is identical for all models, and its hash is stored. `--with-board` adds an ASCII board; decide once and keep it fixed.
-- Outputs in `outputs/step3_llm_pilot/<month>/`: per model `generations.jsonl` (text, thinking, raw output, `done_reason`, truncation flag, tokens, seconds) and `run_manifest.json` (model digest, Ollama version, settings, prompt hash, input hash, git commit, script hash, hardware); across models `summary.csv` (speed, truncation), `variation.csv` (distinct texts per position across repeats) and `review_sheet.csv` (for counting claims and errors by hand). `--mock` writes to a separate `_MOCK` folder.
-- Resuming skips finished (position, repeat) pairs; if the settings or prompt changed, the script refuses and asks you to move the old folder aside.
+| Ollama tag | Local ID prefix | Listed size |
+|---|---:|---:|
+| `qwen2.5:7b` | `845dbda0ea48` | 4.7 GB |
+| `deepseek-r1:8b` | `6995872bfe4c` | 5.2 GB |
+| `phi4-mini:latest` | `78fad5d182a7` | 2.5 GB |
+| `llama3.1:8b` | `46e0c10c039e` | 4.9 GB |
+
+These are pinned in `config.py`. Before generation the notebook checks each installed model's digest prefix against that inventory. Each model's full digest and the Ollama server version are then recorded in its manifest; the notebook obtains the server version from Ollama's local API at run time. If a model has been pulled or updated to a different digest, generation stops until the pin is deliberately reviewed and updated.
+
+The default run is 4 models x 10 positions x 3 conditions x one call per condition = 120 generations (30 per model). The pilot conditions are fixed in `config.py`: A receives only the position and played move; B receives those plus pre- and post-move Stockfish evaluations; C receives the same evaluations as B plus `engine_best_pv_san`, the best PV from the original position. Both scores use White's centipawn perspective. A, B, and C are separate requests with no shared chat history. The LLM receives no good/bad label, CP-loss target, or separate engine-best-move field; the PV in C is the only condition-specific source that contains an engine line. This pilot does not include condition D.
+
+Settings are temperature `LLM_TEMPERATURE` (0.0), seed `SEED_LLM` (46), CPU only (`num_gpu: 0`), `LLM_NUM_CTX` (2048), and `LLM_MAX_TOKENS` (400). `deepseek-r1:8b` is configured with context 4096 and a 3000-token output budget; its `<think>` text is separated from the final answer in the results. The main-run `LLM_REPEATS` value (3) does not apply to this pilot. The thread count is based on the local CPU count and recorded per run. The optional ASCII board is off by default. The system prompt, user template, exact condition prompts, prompt hash, options, source/input hashes, Python/platform, Git state, and code hashes are also recorded.
+
+The notebook contains the generation implementation; there is no separate Step 3 Python script. Start Ollama first (`ollama serve`) and make sure the listed tags are installed. Save the notebook, run its setup and preflight cells, then set `RUN_PILOT = True` and execute only the generation cell. Leave `RUN_PILOT = False` during **Run All** to avoid starting all 120 generations accidentally. `USE_MOCK = True` provides a quick offline smoke test.
+
+Before generation, the notebook verifies the pilot sample, private key, Stockfish result CSV, and both manifests and their hashes. The key and its labels remain local and are used only to join and validate Stockfish evidence; they are not included in any prompt. Outputs in `outputs/step3_llm_pilot/<month>/` are separated by model. Each model folder has `generations.jsonl` (condition, prompt, final text, raw response, thinking, `done_reason`, truncation, token counts, and timing) and `run_manifest.json`. Cross-model outputs include `summary.csv` (per model and condition), `condition_comparison.csv` (A/B/C responses side-by-side per position/model), and `review_sheet.csv`. Completed (position, condition, repeat) calls resume only when model, digest, input/evidence hashes, settings, and notebook source match. The manifest stores the notebook code hash.
+
+After the generation and summary cells, the optional final reproducibility-check cell is off by default. Set `RUN_REPRO_CHECK = True` and execute only that cell to re-run one or two positions for every model and condition, then compare the responses with the saved generations. It writes no result files; the comparison is displayed in the notebook. Clear the cell output before saving if you do not want that diagnostic table retained in the notebook.
+
+`check_setup.py` remains the project-wide environment/dependency preflight. `check_main_dataset.py` is not needed to run this pilot; retain and run it after modifying `positions_main.csv` and before main generation, where it validates the main dataset rather than the 10-row pilot input.
 
 ## Planned steps
-3. Test candidate LLMs on the fixed pilot set with `step3_llm_pilot.py` (Condition A first; conditions B-D follow once the model and prompt are fixed). Choose the model and settings before main generation.
+3. Test candidate LLMs on the fixed pilot set with `step3_llm_pilot.ipynb`, comparing conditions A-C on every position. Choose the model and settings before main generation; condition D is outside this pilot.
 4. Claim extraction, verification, blind second annotation (about 20% of claims, Cohen's kappa), repair condition D
 5. Analysis (plan frozen and git-tagged before the main generation)

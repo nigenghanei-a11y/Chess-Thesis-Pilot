@@ -1,0 +1,13 @@
+model,condition,generations,truncated,empty_text,mean_seconds,mean_tokens_per_s,median_words
+qwen2.5:7b,A,10,0,0,17.5,6.31,74.0
+qwen2.5:7b,B,10,0,0,20.5,6.07,93.5
+qwen2.5:7b,C,10,0,0,22.6,6.46,99.0
+deepseek-r1:8b,A,10,1,1,139.0,5.65,95.0
+deepseek-r1:8b,B,10,0,0,107.4,5.61,132.0
+deepseek-r1:8b,C,10,0,0,103.0,5.62,132.0
+phi4-mini:latest,A,10,0,0,11.3,11.02,82.5
+phi4-mini:latest,B,10,0,0,10.5,11.89,96.5
+phi4-mini:latest,C,10,0,0,10.8,11.89,95.5
+llama3.1:8b,A,10,0,0,19.0,6.08,77.5
+llama3.1:8b,B,10,0,0,19.2,6.15,86.0
+llama3.1:8b,C,10,0,0,20.0,5.99,89.5
