@@ -45,10 +45,23 @@ PV_MAX_PLIES = 8
 STOCKFISH_PATH = "stockfish/stockfish-windows-x86-64-universal.exe"   # relative to the project folder (Windows); falls back to `stockfish` on PATH. Binary is not committed
 
 # ---- Generating LLM (fix after the pilot) ----
-LLM_BACKEND, LLM_MODEL = "ollama", None      # e.g. "llama3.1:8b"; None until chosen
+LLM_BACKEND, LLM_MODEL = "ollama", None      # main-run model remains undecided until the pilot
 LLM_TEMPERATURE, LLM_NUM_CTX, LLM_MAX_TOKENS = 0.0, 2048, 400
 LLM_DEVICE = "cpu"           # final runs: CPU only (CUDA_VISIBLE_DEVICES=-1) for stable output
-LLM_REPEATS = 3              # repeated generations to quantify run-to-run variation
+LLM_REPEATS = 3              # repeated generations for later main runs; the pilot compares three conditions once each
+LLM_PILOT_MODELS = ["qwen2.5:7b", "deepseek-r1:8b", "phi4-mini:latest", "llama3.1:8b"]
+LLM_PILOT_CONDITIONS = ["A", "B", "C"]
+LLM_PILOT_REPEATS_PER_CONDITION = 1
+LLM_PILOT_PV_COLUMN = "engine_best_pv_san"  # principal variation from the original position, before the candidate move
+LLM_PILOT_MODEL_ID_PREFIXES = {
+    "qwen2.5:7b": "845dbda0ea48",
+    "deepseek-r1:8b": "6995872bfe4c",
+    "phi4-mini:latest": "78fad5d182a7",
+    "llama3.1:8b": "46e0c10c039e",
+}
+LLM_PILOT_OLLAMA_URL = "http://localhost:11434"
+LLM_PILOT_REASONING_MODELS = ["deepseek-r1:8b"]
+LLM_PILOT_REASONING_NUM_CTX, LLM_PILOT_REASONING_MAX_TOKENS = 4096, 3000
 
 # ---- Annotation and analysis plan (freeze BEFORE the main generation; tag the git commit) ----
 ANNOTATION_FRACTION = 0.20   # stratified by condition and claim type, labelled blind to condition
