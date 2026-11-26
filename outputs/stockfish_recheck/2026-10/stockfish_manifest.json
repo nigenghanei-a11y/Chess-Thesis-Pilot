@@ -1,8 +1,8 @@
 {
   "step": "step2_stockfish_recheck",
-  "code_version": "step2-v1",
+  "code_version": "step2-v2",
   "month": "2026-10",
-  "timestamp_utc": "2026-11-20T21:09:21+00:00",
+  "timestamp_utc": "2026-11-25T13:47:04+00:00",
   "step1_results_sha256": "574c6192f709490cfd136ccd482b5936e9c50a28a943b6d784762c4da8313075",
   "pilot_split_complete": false,
   "input_sha256": "6ffd672a941ef5613927c5ba77279da89b7abdbc53bdd5183cf59331098b636f",
@@ -14,7 +14,7 @@
   "threads": 1,
   "hash_mb": 128,
   "multipv": 1,
-  "source_sha256": "bf04a895205fb154cafc0f7e08545aa47be8c0e2105f2876819888fd9cc74d5c",
+  "source_sha256": "a0f7d632f775f0a9754fce2310a2661c291f202801cc836e54de34abfd78f58b",
   "config": {
     "ROOT": "D:\\files for Germany\\srh\\GitHub files\\chess-explanations-thesis",
     "RAW_DIR": "D:\\files for Germany\\srh\\GitHub files\\chess-explanations-thesis\\data\\raw",
@@ -42,6 +42,7 @@
     "BAD_MIN_WINPROB_DROP": "0.1",
     "POSITIONS_PER_GAME": "{'good': 1, 'bad': 1}",
     "PILOT_N": "10",
+    "PILOT_POSITIONS_PER_KIND": "5",
     "PILOT_EXCLUDED_FROM_FINAL": "True",
     "STOCKFISH_VERSION": "19",
     "STOCKFISH_DEPTH": "18",
@@ -57,6 +58,15 @@
     "LLM_MAX_TOKENS": "400",
     "LLM_DEVICE": "cpu",
     "LLM_REPEATS": "3",
+    "LLM_PILOT_MODELS": "['qwen2.5:7b', 'deepseek-r1:8b', 'phi4-mini:latest', 'llama3.1:8b']",
+    "LLM_PILOT_CONDITIONS": "['A', 'B', 'C']",
+    "LLM_PILOT_REPEATS_PER_CONDITION": "2",
+    "LLM_PILOT_PV_COLUMN": "engine_best_pv_san",
+    "LLM_PILOT_MODEL_ID_PREFIXES": "{'qwen2.5:7b': '845dbda0ea48', 'deepseek-r1:8b': '6995872bfe4c', 'phi4-mini:latest': '78fad5d182a7', 'llama3.1:8b': '46e0c10c039e'}",
+    "LLM_PILOT_OLLAMA_URL": "http://localhost:11434",
+    "LLM_PILOT_REASONING_MODELS": "['deepseek-r1:8b']",
+    "LLM_PILOT_REASONING_NUM_CTX": "4096",
+    "LLM_PILOT_REASONING_MAX_TOKENS": "3000",
     "ANNOTATION_FRACTION": "0.2",
     "ANNOTATION_KAPPA": "cohen",
     "PRIMARY_METRIC": "claim-level error rate = incorrect / (correct + incorrect)",
@@ -67,9 +77,15 @@
     "ELO_PERCENTILE": "99.0",
     "GAMES_TARGET": "None",
     "BAD_DEFINITION": "cp",
-    "BAD_ONLY_IN_GAMES_WITH_GOOD": "True"
+    "BAD_ONLY_IN_GAMES_WITH_GOOD": "True",
+    "LLM_V2_MAX_TOKENS": "160",
+    "LLM_V2_REASONING_MAX_TOKENS": "1500",
+    "SPLITTER_MODEL": "qwen2.5:7b",
+    "SPLITTER_NUM_CTX": "2048",
+    "SPLITTER_MAX_TOKENS": "600",
+    "AUTO_AUDIT_FRACTION": "0.1"
   },
-  "git_commit": "dddda496a94d8af28254aff1295967d36ae09ccb",
+  "git_commit": "9a4a42ca0fea0a2fd49b7ff712f38c6173a2abb0",
   "git_uncommitted_changes": true,
   "python": "3.11.9",
   "platform": "Windows-10-10.0.26200-SP0",
@@ -98,5 +114,5 @@
     "positions_rejected.csv",
     "positions_stockfish.csv"
   ],
-  "results_sha256": "fe0249c236075523393cd9b03532678368a7225e09305e4a56fd2f74a68796b8"
+  "results_sha256": "82630693cd4eb0637579c1e0a31321a8002f17cf1fda1e56bc8cb8babf757cf8"
 }

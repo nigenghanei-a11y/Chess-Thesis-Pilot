@@ -48,10 +48,10 @@ STOCKFISH_PATH = "stockfish/stockfish-windows-x86-64-universal.exe"   # relative
 LLM_BACKEND, LLM_MODEL = "ollama", None      # main-run model remains undecided until the pilot
 LLM_TEMPERATURE, LLM_NUM_CTX, LLM_MAX_TOKENS = 0.0, 2048, 400
 LLM_DEVICE = "cpu"           # final runs: CPU only (CUDA_VISIBLE_DEVICES=-1) for stable output
-LLM_REPEATS = 3              # repeated generations for later main runs; the pilot compares three conditions once each
+LLM_REPEATS = 3              # repeated generations for later main runs; the pilot runs each of three conditions twice
 LLM_PILOT_MODELS = ["qwen2.5:7b", "deepseek-r1:8b", "phi4-mini:latest", "llama3.1:8b"]
 LLM_PILOT_CONDITIONS = ["A", "B", "C"]
-LLM_PILOT_REPEATS_PER_CONDITION = 1
+LLM_PILOT_REPEATS_PER_CONDITION = 2
 LLM_PILOT_PV_COLUMN = "engine_best_pv_san"  # principal variation from the original position, before the candidate move
 LLM_PILOT_MODEL_ID_PREFIXES = {
     "qwen2.5:7b": "845dbda0ea48",
@@ -78,6 +78,14 @@ ELO_PERCENTILE = 99.0        # BOTH players must be >= this percentile of the mo
 GAMES_TARGET = None          # None = every game that passes all criteria; an integer = random sample of that many games (SEED_SELECTION)
 BAD_DEFINITION = "cp"        # which definition picks the secondary "bad" position: "cp" (loss >= BAD_MIN_CP_LOSS) or "winprob" (drop >= BAD_MIN_WINPROB_DROP)
 BAD_ONLY_IN_GAMES_WITH_GOOD = True   # bad positions are only taken from games that also have a good position (one good + one bad per game)
+
+
+# ---- v2 (after reading the first pilot): shorter explanations, verdict line, LLM claim splitter, verification ----
+LLM_V2_MAX_TOKENS = 160            # output cap for normal models; the prompt itself asks for <= 3 short sentences + a verdict line
+LLM_V2_REASONING_MAX_TOKENS = 1500 # reasoning models (their <think> text counts); truncated outputs are excluded and reported, never repaired
+SPLITTER_MODEL = "qwen2.5:7b"      # one fixed splitter for all conditions/models; sees only the explanation text (no position, label or engine data)
+SPLITTER_NUM_CTX, SPLITTER_MAX_TOKENS = 2048, 600
+AUTO_AUDIT_FRACTION = 0.10         # share of automatically verified claims mixed blind into the manual sheet to measure the checker's precision
 
 
 def config_snapshot():

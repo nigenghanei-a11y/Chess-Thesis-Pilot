@@ -1,2 +1,15 @@
 model,condition,pilot_id,repeat,done_reason,words,truncated,think_unterminated
+deepseek-r1:8b,A,P002,1,length,0,True,False
+deepseek-r1:8b,A,P003,1,length,0,True,False
+deepseek-r1:8b,A,P003,2,length,0,True,False
+deepseek-r1:8b,A,P004,1,length,0,True,False
+deepseek-r1:8b,A,P004,2,length,0,True,False
+deepseek-r1:8b,A,P006,1,length,0,True,False
+deepseek-r1:8b,A,P006,2,length,0,True,False
+deepseek-r1:8b,A,P007,1,length,0,True,False
 deepseek-r1:8b,A,P008,1,length,0,True,False
+deepseek-r1:8b,A,P008,2,length,0,True,False
+deepseek-r1:8b,A,P009,2,length,0,True,False
+deepseek-r1:8b,A,P010,1,length,0,True,False
+deepseek-r1:8b,A,P010,2,length,0,True,False
+llama3.1:8b,A,P001,1,,0,False,False

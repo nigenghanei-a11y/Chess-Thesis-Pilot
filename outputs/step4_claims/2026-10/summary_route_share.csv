@@ -1,0 +1,7 @@
+route,share_of_factual_claims
+auto_label,0.18
+auto_python_chess,0.208
+auto_stockfish_stored,0.008
+manual,0.256
+unverifiable_hedged,0.084
+unverifiable_strategic,0.265
