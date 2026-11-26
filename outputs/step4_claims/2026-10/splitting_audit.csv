@@ -1,0 +1,68 @@
+explanation_id,original_text,extracted,split_source,n_extracted,n_missed,n_spurious,n_badly_split,notes
+deepseek-r1_8b|B|r1|P001,"The human likely played Bxe4 due to the direct attack on the Black queen (f6). It removes a defender from the e4 pawn and opens the e-file for White's rooks. However, the queen is protected by the pawn on e5, so Black will recapture with Qxe4, winning the bishop and gaining a significant material advantage.","1. The human likely played Bxe4 due to the direct attack on the Black queen (f6)
+2. It removes a defender from the e4 pawn
+3. opens the e-file for White's rooks
+4. the queen is protected by the pawn on e5, so Black will recapture with Qxe4
+5. winning the bishop and gaining a significant material advantage",rule_fallback,5,,,,
+deepseek-r1_8b|C|r1|P003,"Okay, let's analyze the move g5.
+
+The human likely played g5 to simply move the g-pawn, perhaps aiming for a future g6 or to prepare ...Bg7 development. However, it doesn't improve the position significantly and doesn't address any immediate threats, leaving the backward pawn on g7 and the king vulnerable on g8.","1. The human likely played g5 to simply move the g-pawn
+2. perhaps aiming for a future g6
+3. or to prepare ...Bg7 development
+4. However, it doesn't improve the position significantly
+5. and doesn't address any immediate threats
+6. leaving the backward pawn on g7
+7. and the king vulnerable on g8",llm,7,,,,
+deepseek-r1_8b|C|r2|P009,"The human likely played Rxf2 to gain a pawn's worth of material and to immediately threaten the king with a knight fork on f3, attacking both the queen and king. This move removes the defender of the knight, allowing it to deliver a decisive blow. The position becomes more dynamic with a direct attack on the enemy king.","1. The human likely played Rxf2 to gain a pawn's worth of material
+2. to immediately threaten the king with a knight fork on f3
+3. attacking both the queen and king
+4. This move removes the defender of the knight
+5. allowing it to deliver a decisive blow
+6. The position becomes more dynamic with a direct attack on the enemy king",rule_fallback,6,,,,
+llama3.1_8b|A|r2|P002,The human player chooses Bg6 to develop the bishop and put pressure on the kingside. This move also prepares to potentially attack the pawn on e4 with the bishop. The bishop on g6 also eyes the white king on e1.,"1. The human player chooses Bg6 to develop the bishop
+2. put pressure on the kingside
+3. This move also prepares to potentially attack the pawn on e4 with the bishop
+4. The bishop on g6 also eyes the white king on e1",rule_fallback,4,,,,
+llama3.1_8b|B|r1|P009,"The human player chooses Rxf2, capturing the Black queen on f2. This move opens up the f-file for the White rook on f1 to potentially use, and also puts pressure on the Black position on the kingside. The queen is removed from the board, which could be a strategic decision to simplify the position.","1. The human player chooses Rxf2
+2. capturing the Black queen on f2
+3. This move opens up the f-file for the White rook on f1 to potentially use
+4. puts pressure on the Black position on the kingside
+5. The queen is removed from the board
+6. which could be a strategic decision to simplify the position",rule_fallback,6,,,,
+llama3.1_8b|C|r2|P002,"The human player chooses Bg6 to develop the bishop and put pressure on the kingside, particularly targeting the pawn on g2. This move also prepares to potentially exchange the queens and weaken White's kingside pawn structure. The bishop on g6 also eyes the pawn on f4.","1. The human player chooses Bg6 to develop the bishop
+2. and put pressure on the kingside
+3. particularly targeting the pawn on g2
+4. This move also prepares to potentially exchange the queens
+5. and weaken White's kingside pawn structure
+6. The bishop on g6 also eyes the pawn on f4",llm,6,,,,
+llama3.1_8b|C|r2|P009,"The human player chooses Rxf2, attacking the Black queen on f2. This move captures the queen and opens up the f-file for the rook to potentially use later. The queen is removed from the board, which could impact Black's control of the center.","1. The human player chooses Rxf2
+2. attacking the Black queen on f2
+3. This move captures the queen
+4. opens up the f-file for the rook to potentially use later
+5. The queen is removed from the board
+6. which could impact Black's control of the center",rule_fallback,6,,,,
+phi4-mini_latest|B|r1|P008,"The move Rb1 aims to reposition the rook to a more active square, potentially supporting the pawn on b2 and preparing to bring the rook into play. It also clears the b1-h7 diagonal for the queen. However, this move does not significantly improve White's position, as it does not create any immediate threats or opportunities.","1. The move Rb1 aims to reposition the rook to a more active square
+2. potentially supporting the pawn on b2
+3. and preparing to bring the rook into play
+4. It also clears the b1-h7 diagonal for the queen
+5. However, this move does not significantly improve White's position
+6. as it does not create any immediate threats or opportunities",llm,6,,,,
+phi4-mini_latest|B|r2|P003,"A human might choose g5 to push the g-pawn forward, aiming to open up lines for Black's pieces and potentially create weaknesses in White's pawn structure. This move also prepares for possible pawn exchanges that could open up the position for Black's rooks and queen. However, it weakens the g7 square, which could be targeted by White's pieces.","1. A human might choose g5 to push the g-pawn forward
+2. aiming to open up lines for Black's pieces
+3. potentially create weaknesses in White's pawn structure
+4. This move also prepares for possible pawn exchanges that could open up the position for Black's rooks and queen
+5. it weakens the g7 square
+6. which could be targeted by White's pieces",rule_fallback,6,,,,
+phi4-mini_latest|B|r2|P010,"The move Rfd8 aims to develop the rook to an active square, connect the rooks, and potentially support the advance of the b-pawn. It also prepares to bring the rook to the d-file, which can be useful for both defensive and offensive purposes. This move improves Black's position slightly, as indicated by the Stockfish evaluations.","1. The move Rfd8 aims to develop the rook to an active square, connect the rooks
+2. potentially support the advance of the b-pawn
+3. It also prepares to bring the rook to the d-file
+4. which can be useful for both defensive and offensive purposes
+5. This move improves Black's position slightly, as indicated by the Stockfish evaluations",rule_fallback,5,,,,
+qwen2.5_7b|A|r2|P004,"This move supports the rook on c1, controlling the c-file and potentially threatening the black pawn on d4. It also adds pressure on the black king's side. Verdict: good.","1. This move supports the rook on c1
+2. controlling the c-file and potentially threatening the black pawn on d4
+3. It also adds pressure on the black king's side
+4. Verdict: good",rule_fallback,4,,,,
+qwen2.5_7b|C|r2|P005,"The move Nd7 supports the knight on d7, attacking the pawn on e5 and potentially improving Black's piece placement. It also prepares to develop the knight to e5 or f5, strengthening Black's center control.","1. The move Nd7 supports the knight on d7
+2. attacking the pawn on e5 and potentially improving Black's piece placement
+3. It also prepares to develop the knight to e5 or f5
+4. strengthening Black's center control",rule_fallback,4,,,,
