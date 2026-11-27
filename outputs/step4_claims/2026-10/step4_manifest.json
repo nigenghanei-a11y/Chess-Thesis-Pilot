@@ -209,15 +209,17 @@
     "claims_lib": "claims-v5",
     "claims_llm": "splitter-v1",
     "claims_verify": "verify-v8.4",
-    "claims_extend": "extend-v1.3"
+    "claims_extend": "extend-v1.3",
+    "claims_reduce": "reduce-v3"
   },
   "helper_code_sha256": {
+    "claims_reduce": "a50feb8fb146d258b6cb9538dff09e171fbf0d7128de503324370d560cf10de2",
     "claims_lib": "709af26b0b900f272fedda541acf8db4e727ca19090635b74f9fdb876864523e",
     "claims_llm": "fcb72773e20e438dc0c0def5e981e11e63043fc5a4e401e550c62c04c5b4b034",
     "claims_verify": "9df99125343ea8e7b64a77fc617de49f4b728bfc90b11d43ebf805cdefbacbf3",
     "claims_extend": "e1f80455f17bc0a238e9dcfea9674058d1d7ec60f725c435619213ef4874ae42"
   },
-  "notebook_source_sha256": "2b9005dc95beb2ac1e5507c66e81b54e404a32bab577c724458fbaf0a60c92ed",
+  "notebook_source_sha256": "515fc91393c2881ed7720e354eb58d52c5924bac3a3e3383c6b820cb4b24e73c",
   "live_stockfish": {
     "enabled": true,
     "version": "Stockfish 19",
@@ -242,7 +244,7 @@
   "generations": 240,
   "usable_generations": 226,
   "claims": 1301,
-  "manual_share_of_factual_claims": 0.2557,
+  "manual_share_of_factual_claims": 0.0831,
   "determinism_selftest_passed": true,
   "flags": [
     "14 unusable generation(s) excluded (see excluded_generations.csv)",
@@ -332,7 +334,7 @@
     "SPLITTER_MAX_TOKENS": "600",
     "AUTO_AUDIT_FRACTION": "0.1"
   },
-  "git_commit": "9a4a42ca0fea0a2fd49b7ff712f38c6173a2abb0",
+  "git_commit": "98c6bf629d704738e7f1bfff9d3791a55b631933",
   "git_uncommitted_changes": true,
   "python": "3.11.9",
   "platform": "Windows-10-10.0.26200-SP0",
@@ -341,6 +343,7 @@
     "pandas": "3.0.1"
   },
   "hashed_outputs": [
+    "annotation_instance_map.csv",
     "annotation_key.csv",
     "annotation_second_subset.csv",
     "annotation_sheet_blind.csv",
@@ -354,6 +357,6 @@
     "summary_route_share.csv",
     "summary_routes.csv"
   ],
-  "results_sha256": "9db871e24aae82dad4c99fcebf600c5c3d10b43f7a1d5b1bde49113a53d105c9",
-  "timestamp_utc": "2026-11-25T23:05:18+00:00"
+  "results_sha256": "e1da878fcf0f9c11681806b590f366ca1e1c68516031b12d8bdac9a0e524a0bb",
+  "timestamp_utc": "2026-11-27T00:30:45+00:00"
 }
